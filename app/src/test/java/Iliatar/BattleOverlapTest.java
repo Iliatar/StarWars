@@ -51,6 +51,10 @@ public class BattleOverlapTest {
         expected = Math.sqrt(9) / 100;
         assertEquals(expected, actual);
 
+        actual = overlap.getOverlap(fleet2.getShips().get(5), fleet1.getShips().get(5));
+        expected = Math.sqrt(9) / 100;
+        assertEquals(expected, actual);
+
         actual = overlap.getOverlap(fleet1.getShips().get(fleet1.getShips().size() - 1), fleet2.getShips().get(fleet2.getShips().size() - 1));
         expected = Math.sqrt(34) / 100;
         assertEquals(expected, actual);
