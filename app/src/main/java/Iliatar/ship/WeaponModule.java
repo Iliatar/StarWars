@@ -1,17 +1,15 @@
 package Iliatar.ship;
 
 import Iliatar.battle.BattleManager;
-import Iliatar.utils.Priority;
-import Iliatar.utils.RandomSelector;
+import Iliatar.utils.randomSelector.Priority;
+import Iliatar.utils.randomSelector.PriorityItem;
+import Iliatar.utils.randomSelector.RandomSelector;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class WeaponModule {
-    public record PotentialShipTarget (Ship targetShip, double priority) implements Priority {
-        public double getPriority() {return priority; }
-    }
     private final static double COMPLETE_AIM_PROGRESS = 100;
     private final static double RESIDUAL_AIM_PROGRESS = 60;
     private final static double BASE_AIM_SPEED = 10;
@@ -50,30 +48,30 @@ public class WeaponModule {
 
     private void selectTarget() {
         List<Ship> ships = battleManager.getPotentialTargets(this);
-        List<PotentialShipTarget> potentialTargets = new ArrayList<>(ships.size() + 1);
+        List<Priority<Ship>> potentialTargets = new ArrayList<>(ships.size() + 1);
 
         //TODO отрефакторить этот блок
         for(Ship ship : ships) {
             double aimSpeed = getAimingSpeed(ship);
             double initialAimProgress = 0;
             double priority = (COMPLETE_AIM_PROGRESS - initialAimProgress) / aimSpeed;
-            PotentialShipTarget potentialTarget = new PotentialShipTarget(ship, priority);
+            PriorityItem<Ship> potentialTarget = new PriorityItem(ship, priority);
             potentialTargets.add(potentialTarget);
         }
 
         if (targetShip != null && targetShip.isActive()) {
             double aimSpeed = getAimingSpeed(targetShip);
             double priority = (COMPLETE_AIM_PROGRESS - RESIDUAL_AIM_PROGRESS) / aimSpeed;
-            PotentialShipTarget potentialTarget = new PotentialShipTarget(targetShip, priority);
+            PriorityItem<Ship> potentialTarget = new PriorityItem(targetShip, priority);
             potentialTargets.add(potentialTarget);
         }
 
         potentialTargets =  potentialTargets.stream()
-                                            .sorted(Comparator.comparingDouble(PotentialShipTarget::priority))
+                                            .sorted(Comparator.comparingDouble(Priority::getPriority))
                                             .limit(POTENTIAL_TARGETS_FINAL_COUNT)
                                             .toList();
 
-        targetShip = RandomSelector.selectRandomByPriority(potentialTargets).targetShip();
+        targetShip = RandomSelector.selectRandomByPriority(potentialTargets);
     }
 
     public boolean isActive(){
