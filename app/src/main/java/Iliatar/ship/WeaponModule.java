@@ -75,7 +75,7 @@ public class WeaponModule {
     }
 
     public boolean isActive(){
-        return damage < endurance && damagedBarrelCount < barrelCount && parentShip.isEnoughAmmo(this);
+        return damage < endurance && damagedBarrelCount < barrelCount && parentShip.getAmmoModule().isEnoughAmount(barrelCaliber * getActiveBarrelCount());
     }
 
     public void getDamage(int damageAmount) {
@@ -119,16 +119,24 @@ public class WeaponModule {
     }
 
     private void shoot() {
-        parentShip.spendAmmo(this);
-        targetShip.getShoot(this);
-        selectTarget();
+        if (parentShip.getAmmoModule().spend(barrelCaliber * getActiveBarrelCount())) {
+            targetShip.getShoot(this);
+            selectTarget();
+        }
     }
 
     private double getAimingSpeed (Ship targetShip) {
-        double aimingSpeed = BASE_AIM_SPEED * Math.sqrt(targetShip.getMass()) / (Math.sqrt(barrelCaliber) * targetShip.getManeuverability());
+        double aimingSpeed = BASE_AIM_SPEED * Math.sqrt(targetShip.getMass()) / (Math.sqrt(barrelCaliber) * targetShip.getActualManeuverability());
         double overlapping = battleManager.getBattleOverlap().getOverlap(parentShip, targetShip);
         aimingSpeed /= 1 + overlapping;
         aimingSpeed /= 1 + damagedAiming * DAMAGE_AIMING_SPEED_REDUCTION;
         return aimingSpeed;
+    }
+    public int getBarrelCount() {
+        return barrelCount;
+    }
+    public int getActiveBarrelCount() {return barrelCount - damagedBarrelCount; }
+    public int getBarrelCaliber() {
+        return barrelCaliber;
     }
 }
