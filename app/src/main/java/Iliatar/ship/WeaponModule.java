@@ -45,6 +45,10 @@ public class WeaponModule {
         aimProgress = 0;
         selectTarget();
     }
+    public void finalizeBattle() {
+        battleManager = null;
+        targetShip = null;
+    }
 
     private void selectTarget() {
         List<Ship> ships = battleManager.getPotentialTargets(this.parentShip, POTENTIAL_TARGETS_INITIAL_COUNT);

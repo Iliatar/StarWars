@@ -17,8 +17,8 @@ public class BattleManager {
     public void initiateBattle(Fleet fleet1, Fleet fleet2) {
         this.fleet1 = fleet1;
         this.fleet2 = fleet2;
-        fleet1.initiateBattle();
-        fleet2.initiateBattle();
+        fleet1.initiateBattle(this);
+        fleet2.initiateBattle(this);
         battleOverlap = new BattleOverlap(fleet1, fleet2);
         processBattle();
     }

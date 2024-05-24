@@ -1,5 +1,7 @@
 package Iliatar.ship;
 
+import Iliatar.battle.BattleManager;
+
 import java.util.List;
 
 public class Ship {
@@ -83,6 +85,13 @@ public class Ship {
                 }
             }
         }
+    }
+    public void initiateForBattle(BattleManager battleManager) {
+        weapons.forEach(weaponModule -> weaponModule.initiateForBattle(battleManager));
+    }
+
+    public void finalizeBattle() {
+        weapons.forEach(weaponModule -> weaponModule.finalizeBattle());
     }
 
     public boolean isActive() {

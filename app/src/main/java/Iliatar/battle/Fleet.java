@@ -31,11 +31,12 @@ public class Fleet {
         return ships.stream().filter(Ship::isActive).toList();
     }
 
-    public void initiateBattle() {
-
+    public void initiateBattle(BattleManager battleManager) {
+        ships.forEach(ship -> ship.initiateForBattle(battleManager));
     }
 
     public void finalizeBattle() {
+        ships.forEach(ship -> ship.finalizeBattle());
         ships = ships.stream().filter(ship -> !ship.isDestroyed()).toList(); //удаляем уничтоженные корабли
     }
 }
