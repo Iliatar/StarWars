@@ -47,7 +47,7 @@ public class WeaponModule {
     }
 
     private void selectTarget() {
-        List<Ship> ships = battleManager.getPotentialTargets(this);
+        List<Ship> ships = battleManager.getPotentialTargets(this.parentShip, POTENTIAL_TARGETS_INITIAL_COUNT);
         List<Priority<Ship>> potentialTargets = new ArrayList<>(ships.size() + 1);
 
         //TODO отрефакторить этот блок

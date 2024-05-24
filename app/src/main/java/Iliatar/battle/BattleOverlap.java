@@ -13,7 +13,6 @@ public class BattleOverlap {
         this.fleet1 = fleet1;
         this.fleet2 = fleet2;
         overlapMatrix = new double[Ship.MAX_SHIP_RANK][Ship.MAX_SHIP_RANK];
-        refreshOverlap();
     }
 
     public double getOverlap(Ship sourceShip, Ship targetShip) {
@@ -42,14 +41,13 @@ public class BattleOverlap {
                     shipRankMatrix[i][j] = shipRankMatrix[i][j-1] + (fleet2ShipRankVector[j] + fleet2ShipRankVector[j - 1]) / 2;
                 }
                 overlapMatrix[i][j] = Math.sqrt(shipRankMatrix[i][j]) / 100;
-                //System.out.println("shipRankMatrix[" + i + "][" + j + "] = " + shipRankMatrix[i][j]);
             }
         }
     }
 
     private double[] getShipRankVector(Fleet fleet) {
         var shipRankVector = new double[Ship.MAX_SHIP_RANK];
-        for (Ship ship : fleet.getShips()) {
+        for (Ship ship : fleet.getActiveShips()) {
             int shipRank = ship.getRank();
             shipRankVector[shipRank - 1] += shipRank;
         }

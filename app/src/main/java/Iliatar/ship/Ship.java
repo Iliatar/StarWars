@@ -86,8 +86,9 @@ public class Ship {
     }
 
     public boolean isActive() {
-        return damage < endurance && weapons.stream().anyMatch(wm -> wm.isActive());
+        return !isDestroyed() && weapons.stream().anyMatch(wm -> wm.isActive());
     }
+    public boolean isDestroyed() {return damage >= endurance; }
 
     public StorageModule getAmmoModule() {
         return ammoModule;
