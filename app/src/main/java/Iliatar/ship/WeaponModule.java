@@ -22,7 +22,8 @@ public class WeaponModule {
     private final int barrelCount;
     private final int barrelCaliber;
     private final int endurance;
-    private final Ship parentShip = null;
+    private final String name;
+    private Ship parentShip;
     private int damage;
     private int damagedBarrelCount;
     private int damagedAiming;
@@ -30,13 +31,17 @@ public class WeaponModule {
     private double aimProgress;
     private BattleManager battleManager;
 
-    public WeaponModule(int barrelCount, int barrelCaliber, int endurance) {
+    public WeaponModule(String name, int barrelCount, int barrelCaliber, int endurance) {
         this.barrelCount = barrelCount;
         this.barrelCaliber = barrelCaliber;
         this.endurance = endurance;
+        this.name = name;
         damage = 0;
         damagedBarrelCount = 0;
         damagedAiming = 0;
+    }
+    public void setParentShip(Ship parentShip) {
+        this.parentShip = parentShip;
     }
 
     public void initiateForBattle(BattleManager battleManager) {
@@ -130,7 +135,7 @@ public class WeaponModule {
     }
 
     private double getAimingSpeed (Ship targetShip) {
-        double aimingSpeed = BASE_AIM_SPEED * Math.sqrt(targetShip.getMass()) / (Math.sqrt(barrelCaliber) * targetShip.getActualManeuverability());
+        double aimingSpeed = BASE_AIM_SPEED * Math.sqrt(targetShip.getMass()) / (Math.sqrt(barrelCaliber * barrelCount) * targetShip.getActualManeuverability());
         double overlapping = battleManager.getBattleOverlap().getOverlap(parentShip, targetShip);
         aimingSpeed /= 1 + overlapping;
         aimingSpeed /= 1 + damagedAiming * DAMAGE_AIMING_SPEED_REDUCTION;
@@ -143,4 +148,5 @@ public class WeaponModule {
     public int getBarrelCaliber() {
         return barrelCaliber;
     }
+    public String getName() { return name; }
 }
