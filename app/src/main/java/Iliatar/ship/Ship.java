@@ -15,19 +15,21 @@ public class Ship {
     private static final double ARMOR_DEGRADATION_PER_DAMAGE_UNIT = 0.001;
     private final int rank;
     private final int endurance;
-    private int damage;
     private final double mass;
     private final double maneuverability;
-    private int maneuverabilityDamage;
     private final double spaceSpeed;
-    private int spaceEnginesDamage;
     private final double armor;
+    private final String shipType;
+    private int damage;
+    private int maneuverabilityDamage;
+    private int spaceEnginesDamage;
     private double armorDamage;
     private final List<WeaponModule> weapons;
     private final StorageModule ammoModule;
 
 
-    public Ship (int rank, int endurance, double mass, double maneuverability, double spaceSpeed, double armor, List<WeaponModule> weapons, int ammoStorageLimit) {
+    public Ship (String shipType, int rank, int endurance, double mass, double maneuverability, double spaceSpeed, double armor, List<WeaponModule> weapons, int ammoStorageLimit) {
+        this.shipType = shipType;
         this.rank = rank;
         this.endurance = endurance;
         damage = 0;
@@ -116,4 +118,5 @@ public class Ship {
     public double getActualSpaceSpeed() { return spaceSpeed * Math.max(1 - spaceEnginesDamage * SPACE_ENGINE_DAMAGE_SPEED_REDUCTION, 0); }
     public int getEndurance() { return endurance; }
     public int getActualEndurance() { return endurance - damage; }
+    public String getShipType() { return shipType; }
 }
