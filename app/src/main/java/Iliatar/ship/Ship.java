@@ -1,5 +1,6 @@
 package Iliatar.ship;
 
+import Iliatar.battle.BattleLogger;
 import Iliatar.battle.BattleManager;
 
 import java.util.List;
@@ -40,21 +41,27 @@ public class Ship {
         spaceEnginesDamage = 0;
         this.armor = armor;
         armorDamage = 0;
-        this.weapons = weapons;
+        this.weapons = List.copyOf(weapons);
+        this.weapons.stream().forEach(weapon -> weapon.setParentShip(this));
         ammoModule = new StorageModule(ammoStorageLimit);
     }
 
     public void processBattleTurn(double deltaTime) {
-        weapons.forEach(weaponModule -> processBattleTurn(deltaTime));
+        weapons.forEach(weaponModule -> weaponModule.processBattleTurn(deltaTime));
     }
     public void getShoot(WeaponModule weaponModule) {
-        armorDamage += weaponModule.getActiveBarrelCount() * Math.min(weaponModule.getBarrelCaliber(), getActualArmor()) * ARMOR_DEGRADATION_PER_DAMAGE_UNIT;
+        double shootArmorDamage = weaponModule.getActiveBarrelCount() * Math.min(weaponModule.getBarrelCaliber(), getActualArmor()) * ARMOR_DEGRADATION_PER_DAMAGE_UNIT;
+        armorDamage += shootArmorDamage;
+        BattleLogger.logMessage("Ship " + shipType + " get armor damage " + shootArmorDamage + "; actual armor is " + getActualArmor());
+
         int barellEnduranceDamage = (int)Math.ceil(weaponModule.getBarrelCaliber() - getActualArmor());
         if (barellEnduranceDamage <= 0) {
             return;
         }
+
         int enduranceDamage = barellEnduranceDamage * weaponModule.getActiveBarrelCount();
         damage += enduranceDamage;
+        BattleLogger.logMessage("Ship " + shipType + " get endurance damage " + enduranceDamage + "; endurance damage is " + damage + " of " + endurance);
         if (damage >= endurance) {
             return;
         }
@@ -64,18 +71,21 @@ public class Ship {
             double diceRoll = Math.random();
             if (diceRoll < MANEUVERABILITY_DAMAGE_CHANCE * barellEnduranceDamage) {
                 maneuverabilityDamage++;
+                BattleLogger.logMessage("Ship " + shipType + " get maneuverability damage. Maneuverability damage is " + maneuverabilityDamage);
                 return;
             }
 
             diceRoll = Math.random();
             if (diceRoll < AMMO_DETONATION_CHANCE * barellEnduranceDamage) {
                 damage = endurance;
+                BattleLogger.logMessage("Ship " + shipType + " destroyed by ammo detonation");
                 return;
             }
 
             diceRoll = Math.random();
             if (diceRoll < SPACE_ENGINES_DAMAGE_CHANCE * barellEnduranceDamage) {
                 spaceEnginesDamage++;
+                BattleLogger.logMessage("Ship " + shipType + " get space engines damage. Space engines damage is " + maneuverabilityDamage);
                 return;
             }
 
@@ -97,7 +107,9 @@ public class Ship {
     }
 
     public boolean isActive() {
-        return !isDestroyed() && weapons.stream().anyMatch(wm -> wm.isActive());
+        //System.out.println("Ship.isActive().isDestroyed() = " + isDestroyed() + "; weapons.stream().filter(WeaponModule::isActive).count() > 0 = "  + (weapons.stream().filter(WeaponModule::isActive).count() > 0));
+        //System.out.println("weapons.size() = " + weapons.size());
+        return !isDestroyed() && weapons.stream().filter(WeaponModule::isActive).count() > 0;
     }
     public boolean isDestroyed() {return damage >= endurance; }
 

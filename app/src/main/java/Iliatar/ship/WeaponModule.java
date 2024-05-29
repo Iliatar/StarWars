@@ -1,5 +1,6 @@
 package Iliatar.ship;
 
+import Iliatar.battle.BattleLogger;
 import Iliatar.battle.BattleManager;
 import Iliatar.utils.randomSelector.Priority;
 import Iliatar.utils.randomSelector.PriorityItem;
@@ -81,14 +82,17 @@ public class WeaponModule {
                                             .toList();
 
         targetShip = RandomSelector.selectRandomByPriority(potentialTargets);
+        BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " select target: " + targetShip.getShipType());
     }
 
     public boolean isActive(){
+        //System.out.println("WeaponModule.isActive(). damage < endurance = " + (damage < endurance) + "; damagedBarrelCount < barrelCount = " + (damagedBarrelCount < barrelCount) + "; parentShip.getAmmoModule().isEnoughAmount(barrelCaliber * getActiveBarrelCount()) = " + parentShip.getAmmoModule().isEnoughAmount(barrelCaliber * getActiveBarrelCount()));
         return damage < endurance && damagedBarrelCount < barrelCount && parentShip.getAmmoModule().isEnoughAmount(barrelCaliber * getActiveBarrelCount());
     }
 
     public void getDamage(int damageAmount) {
         damage += damageAmount;
+        BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " get damage " + damageAmount + "; endurance damage is " + damage + " of " + endurance);
 
         if (damage >= endurance) {
             return;
@@ -98,16 +102,19 @@ public class WeaponModule {
         double diceRoll = Math.random();
         if (diceRoll < DAMAGE_BARREL_CHANCE) {
             damagedBarrelCount++;
+            BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " barrel damaged. Damaged barrel count is " + damagedBarrelCount);
         }
 
         diceRoll = Math.random();
         if (diceRoll < RESET_AIMING_CHANCE) {
+            BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " aiming reseted");
             aimProgress = 0;
         }
 
         diceRoll = Math.random();
         if (diceRoll < DAMAGE_AIMING_CHANCE) {
             damagedAiming++;
+            BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " aiming damaged. Aiming damage is " + damagedAiming);
         }
     }
 
@@ -129,6 +136,8 @@ public class WeaponModule {
 
     private void shoot() {
         if (parentShip.getAmmoModule().spend(barrelCaliber * getActiveBarrelCount())) {
+            BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " shoots to " + targetShip.getShipType());
+            BattleLogger.logMessage("Ship " + parentShip.getShipType() + " ammo storage: " + targetShip.getAmmoModule().getAmount());
             targetShip.getShoot(this);
             selectTarget();
         }

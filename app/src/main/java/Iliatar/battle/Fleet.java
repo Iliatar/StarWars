@@ -16,6 +16,7 @@ public class Fleet {
     public void addShip(Ship ship) {
         ships.add(ship);
     }
+    public void addShips(List<Ship> ships) { this.ships.addAll(ships); }
     public void removeShip(Ship ship) {
         if (ship == null || !ships.contains(ship)) {
             return;

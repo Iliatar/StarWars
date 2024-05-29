@@ -18,28 +18,28 @@ public class ShipFactory {
         weapons.add(WeaponModuleFactory.getWeapon("Light cannon"));
         ShipBlueprint scoutBlueprint = new ShipBlueprint(1, 15, 3, 8, 5, 1, weapons, 30);
         blueprintLibrary.put("Scout", scoutBlueprint);
-        weapons.clear();
 
+        weapons = new ArrayList<>();
         weapons.add(WeaponModuleFactory.getWeapon("Heavy Cannon"));
         ShipBlueprint harpoonBlueprint = new ShipBlueprint(1, 22, 4, 6, 4, 2, weapons, 64);
         blueprintLibrary.put("Harpoon", harpoonBlueprint);
-        weapons.clear();
 
+        weapons = new ArrayList<>();
         weapons.add(WeaponModuleFactory.getWeapon("Light cannon"));
         weapons.add(WeaponModuleFactory.getWeapon("Light cannon"));
         weapons.add(WeaponModuleFactory.getWeapon("Cannon"));
         ShipBlueprint fighterBlueprint = new ShipBlueprint(1, 22, 4, 6, 4, 2, weapons, 55);
         blueprintLibrary.put("Fighter", fighterBlueprint);
-        weapons.clear();
 
+        weapons = new ArrayList<>();
         weapons.add(WeaponModuleFactory.getWeapon("Light Turret"));
         weapons.add(WeaponModuleFactory.getWeapon("Minigun"));
         weapons.add(WeaponModuleFactory.getWeapon("Heavy Cannon"));
         weapons.add(WeaponModuleFactory.getWeapon("Heavy Turret"));
         ShipBlueprint destroyerBlueprint = new ShipBlueprint(2, 60, 14, 3, 4, 5, weapons, 150);
         blueprintLibrary.put("Destroyer", destroyerBlueprint);
-        weapons.clear();
 
+        weapons = new ArrayList<>();
         weapons.add(WeaponModuleFactory.getWeapon("Light Turret"));
         weapons.add(WeaponModuleFactory.getWeapon("Light Turret"));
         weapons.add(WeaponModuleFactory.getWeapon("Rotary Cannon"));
@@ -49,7 +49,6 @@ public class ShipFactory {
         weapons.add(WeaponModuleFactory.getWeapon("Main Caliber"));
         ShipBlueprint cruiserBlueprint = new ShipBlueprint(3, 150, 40, 1, 3, 6, weapons, 500);
         blueprintLibrary.put("Cruiser", cruiserBlueprint);
-        weapons.clear();
     }
 
     public static Ship getShip(String shipTypeName) {

@@ -10,21 +10,33 @@ import java.util.List;
 
 public class BattleManager {
     private static final double TURN_DELTA_TIME = 1d;
+    private static final int TURN_NUMBER_LIMIT = 2500;
     Fleet fleet1;
     Fleet fleet2;
+    int turnNumber;
     private BattleOverlap battleOverlap;
+
+    public int getTurnNumber() {
+        return turnNumber;
+    }
 
     public void initiateBattle(Fleet fleet1, Fleet fleet2) {
         this.fleet1 = fleet1;
         this.fleet2 = fleet2;
+        BattleLogger.initiate(this);
+        battleOverlap = new BattleOverlap(fleet1, fleet2);
+        turnNumber = 0;
+        BattleLogger.logMessage("start battle");
+        BattleLogger.logMessage("fleet 1 with " + fleet1.getShips().size() + " ships");
+        BattleLogger.logMessage("fleet 2 with " + fleet2.getShips().size() + " ships");
         fleet1.initiateBattle(this);
         fleet2.initiateBattle(this);
-        battleOverlap = new BattleOverlap(fleet1, fleet2);
         processBattle();
     }
 
     public void processBattle() {
-        while (!fleet1.getActiveShips().isEmpty() && !fleet2.getActiveShips().isEmpty()) {
+        while (!fleet1.getActiveShips().isEmpty() && !fleet2.getActiveShips().isEmpty() && turnNumber < TURN_NUMBER_LIMIT) {
+            turnNumber++;
             battleOverlap.refreshOverlap();
             fleet1.getActiveShips().forEach(ship -> ship.processBattleTurn(TURN_DELTA_TIME));
             fleet2.getActiveShips().forEach(ship -> ship.processBattleTurn(TURN_DELTA_TIME));
@@ -62,6 +74,9 @@ public class BattleManager {
     private void finalizeBattle() {
         fleet1.finalizeBattle();
         fleet2.finalizeBattle();
+        BattleLogger.logMessage("finish battle");
+        BattleLogger.logMessage("fleet 1 with " + fleet1.getShips().size() + " ships (" + fleet1.getActiveShips().size() + " active)");
+        BattleLogger.logMessage("fleet 2 with " + fleet2.getShips().size() + " ships (" + fleet2.getActiveShips().size() + " active)");
     }
 
     public BattleOverlap getBattleOverlap() { return battleOverlap; }

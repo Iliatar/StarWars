@@ -24,4 +24,5 @@ public class StorageModule {
     public boolean isEnoughAmount (int checkedAmount) {
         return amount >= checkedAmount;
     }
+    public int getAmount() { return amount; }
 }

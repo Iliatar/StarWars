@@ -13,6 +13,7 @@ public class BattleOverlap {
         this.fleet1 = fleet1;
         this.fleet2 = fleet2;
         overlapMatrix = new double[Ship.MAX_SHIP_RANK][Ship.MAX_SHIP_RANK];
+        refreshOverlap();
     }
 
     public double getOverlap(Ship sourceShip, Ship targetShip) {
@@ -51,6 +52,7 @@ public class BattleOverlap {
             int shipRank = ship.getRank();
             shipRankVector[shipRank - 1] += shipRank;
         }
+
         return shipRankVector;
     }
 }
