@@ -76,6 +76,11 @@ public class WeaponModule {
             potentialTargets.add(potentialTarget);
         }
 
+        if (potentialTargets.isEmpty()) {
+            BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " select target: potential targets list is empty");
+            return;
+        }
+
         potentialTargets =  potentialTargets.stream()
                                             .sorted(Comparator.comparingDouble(Priority::getPriority))
                                             .limit(POTENTIAL_TARGETS_FINAL_COUNT)
@@ -83,6 +88,7 @@ public class WeaponModule {
 
         targetShip = RandomSelector.selectRandomByPriority(potentialTargets);
         BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " select target: " + targetShip.getShipType());
+        BattleLogger.logMessage("Calculated aiming speed = " + getAimingSpeed(targetShip));
     }
 
     public boolean isActive(){
@@ -137,8 +143,9 @@ public class WeaponModule {
     private void shoot() {
         if (parentShip.getAmmoModule().spend(barrelCaliber * getActiveBarrelCount())) {
             BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " shoots to " + targetShip.getShipType());
-            BattleLogger.logMessage("Ship " + parentShip.getShipType() + " ammo storage: " + targetShip.getAmmoModule().getAmount());
+            BattleLogger.logMessage("Ship " + parentShip.getShipType() + " ammo storage: " + parentShip.getAmmoModule().getAmount());
             targetShip.getShoot(this);
+            aimProgress = 0;
             selectTarget();
         }
     }
@@ -158,4 +165,6 @@ public class WeaponModule {
         return barrelCaliber;
     }
     public String getName() { return name; }
+    public int getEndurance() { return endurance; }
+    public int getDamage() { return damage; }
 }

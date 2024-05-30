@@ -18,7 +18,8 @@ public class BattleManagerTest {
 
         Fleet fleet2 = new Fleet(new ArrayList<Ship>());
         fleet2.addShips(ShipFactory.getShips("Scout", 0));
-        fleet2.addShips(ShipFactory.getShips("Destroyer", 1));
+        fleet2.addShips(ShipFactory.getShips("Harpoon", 1));
+        fleet2.addShips(ShipFactory.getShips("Destroyer", 0));
         fleet2.addShips(ShipFactory.getShips("Cruiser", 0));
 
         BattleManager battleManager = new BattleManager();

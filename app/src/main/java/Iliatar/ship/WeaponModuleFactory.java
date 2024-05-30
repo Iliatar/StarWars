@@ -25,6 +25,6 @@ public class WeaponModuleFactory {
             throw new IllegalArgumentException("WeaponModuleFactory library does not contain module with name " + moduleName);
         }
         WeaponBlueprint blueprint = blueprintLibrary.get(moduleName);
-        return new WeaponModule(moduleName, blueprint.barrelCount(), blueprint.barrelCount(), blueprint.endurance());
+        return new WeaponModule(moduleName, blueprint.barrelCount(), blueprint.barrelCaliber(), blueprint.endurance());
     }
 }
