@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <!-- Секция аппендеров -->
+    <Appenders>
+        <!-- Файловый аппендер -->
+        <RollingFile name="file" fileName="BattleReports/battleReport.log" filePattern="BattleReports/battleReport.%i.log">
+            <Policies>
+                <OnStartupTriggeringPolicy />
+            </Policies>
+            <PatternLayout>
+                <Pattern>%d %p %m %ex%n</Pattern>
+            </PatternLayout>
+            <DefaultRolloverStrategy>
+                <Delete basePath="BattleReports" maxDepth="2">
+                    <IfFileName glob="*.log" />
+                    <IfLastModified age="P10D" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <!-- Секция логгеров -->
+    <Loggers>
+        <!-- Корневой логгер -->
+        <Root level="trace">
+            <AppenderRef ref="file" level="DEBUG"/>
+        </Root>
+        <!-- Логгер нашего класса -->
+        <Logger name="logging.log4j.BattleLogger" level="info" additivity="false">
+            <AppenderRef ref="file" level="INFO"/>
+        </Logger>
+    </Loggers>
+</Configuration>
