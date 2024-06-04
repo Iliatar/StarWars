@@ -75,8 +75,8 @@ public class BattleManager {
         fleet1.finalizeBattle();
         fleet2.finalizeBattle();
         BattleLogger.logMessage("finish battle");
-        BattleLogger.logMessage("fleet 1 with " + fleet1.getShips().size() + " ships (" + fleet1.getActiveShips().size() + " active)");
-        BattleLogger.logMessage("fleet 2 with " + fleet2.getShips().size() + " ships (" + fleet2.getActiveShips().size() + " active)");
+        BattleLogger.logMessage("fleet "+ fleet1.getName() +" with " + fleet1.getShips().size() + " ships (" + fleet1.getActiveShips().size() + " active)");
+        BattleLogger.logMessage("fleet "+ fleet2.getName() +" with " + fleet2.getShips().size() + " ships (" + fleet2.getActiveShips().size() + " active)");
     }
 
     public BattleOverlap getBattleOverlap() { return battleOverlap; }

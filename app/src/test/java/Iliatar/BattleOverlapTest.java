@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class BattleOverlapTest {
     @Test
     public void testOverlapLogic() {
-        Fleet fleet1 = new Fleet(new ArrayList<Ship>());
+        Fleet fleet1 = new Fleet("Fleet 1", new ArrayList<Ship>());
         fleet1.addShips(ShipFactory.getShips("Scout", 4));
         fleet1.addShips(ShipFactory.getShips("Destroyer", 2));
         fleet1.addShips(ShipFactory.getShips("Cruiser", 3));
 
-        Fleet fleet2 = new Fleet(new ArrayList<Ship>());
+        Fleet fleet2 = new Fleet("Fleet 2", new ArrayList<Ship>());
         fleet2.addShips(ShipFactory.getShips("Scout", 6));
         fleet2.addShips(ShipFactory.getShips("Destroyer", 4));
         fleet2.addShips(ShipFactory.getShips("Cruiser", 5));
@@ -45,10 +45,10 @@ public class BattleOverlapTest {
 
     @Test
     public void testOverlapThrowns() {
-        Fleet fleet1 = new Fleet(new ArrayList<>());
+        Fleet fleet1 = new Fleet("Fleet 1", new ArrayList<>());
         fleet1.addShips(ShipFactory.getShips("Scout", 2));
 
-        Fleet fleet2 = new Fleet(new ArrayList<>());
+        Fleet fleet2 = new Fleet("Fleet 2", new ArrayList<>());
         fleet2.addShips(ShipFactory.getShips("Scout", 4));
 
         BattleOverlap overlap = new BattleOverlap(fleet1, fleet2);

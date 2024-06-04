@@ -7,22 +7,28 @@ import java.util.List;
 
 public class Fleet {
     private List<Ship> ships;
+    private String name;
 
-    public Fleet(List<Ship> ships) {
+    public Fleet(String name, List<Ship> ships) {
+        this.name = name;
         this.ships = ships;
     }
     public Fleet() {ships = new ArrayList<>();}
 
     public void addShip(Ship ship) {
         ships.add(ship);
+        ship.setFleet(this);
     }
-    public void addShips(List<Ship> ships) { this.ships.addAll(ships); }
+    public void addShips(List<Ship> ships) {
+        ships.forEach(this::addShip);
+    }
     public void removeShip(Ship ship) {
         if (ship == null || !ships.contains(ship)) {
             return;
         }
 
         ships.remove(ship);
+        ship.setFleet(null);
     }
 
     public List<Ship> getShips() {
@@ -31,6 +37,7 @@ public class Fleet {
     public List<Ship> getActiveShips() {
         return ships.stream().filter(Ship::isActive).toList();
     }
+    public String getName() {return name;}
 
     public void initiateBattle(BattleManager battleManager) {
         ships.forEach(ship -> ship.initiateForBattle(battleManager));
@@ -38,6 +45,6 @@ public class Fleet {
 
     public void finalizeBattle() {
         ships.forEach(ship -> ship.finalizeBattle());
-        ships = ships.stream().filter(ship -> !ship.isDestroyed()).toList(); //удаляем уничтоженные корабли
+        ships.stream().filter(ship -> ship.isDestroyed()).toList().forEach(this::removeShip); //удаляем уничтоженные корабли
     }
 }

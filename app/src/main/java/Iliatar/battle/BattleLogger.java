@@ -1,5 +1,7 @@
 package Iliatar.battle;
 
+import Iliatar.ship.Ship;
+import Iliatar.ship.WeaponModule;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -13,5 +15,13 @@ public class BattleLogger {
     }
     public static void logMessage(String message) {
         logger.info(battleManager.getTurnNumber() + ":  " + message);
+    }
+
+    public static void logShipMessage(Ship ship, String message) {
+        logMessage(ship.getShipType() + " of " + ship.getFleet().getName() + " " + message);
+    }
+
+    public static void logWeaponMessage(WeaponModule weaponModule, String message) {
+        logMessage(weaponModule.getName() + " of " + weaponModule.getParentShip().getShipType() + " of " +  weaponModule.getParentShip().getFleet().getName() + " " + message);
     }
 }

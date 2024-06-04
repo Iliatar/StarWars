@@ -77,7 +77,7 @@ public class WeaponModule {
         }
 
         if (potentialTargets.isEmpty()) {
-            BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " select target: potential targets list is empty");
+            BattleLogger.logWeaponMessage(this, "select target: potential targets list is empty");
             return;
         }
 
@@ -86,9 +86,16 @@ public class WeaponModule {
                                             .limit(POTENTIAL_TARGETS_FINAL_COUNT)
                                             .toList();
 
-        targetShip = RandomSelector.selectRandomByPriority(potentialTargets);
-        BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " select target: " + targetShip.getShipType());
-        BattleLogger.logMessage("Calculated aiming speed = " + getAimingSpeed(targetShip));
+        Ship newTargetShip = RandomSelector.selectRandomByPriority(potentialTargets);
+        if (newTargetShip == targetShip) {
+            aimProgress = RESIDUAL_AIM_PROGRESS;
+        } else {
+            aimProgress = 0;
+        }
+        targetShip = newTargetShip;
+
+        BattleLogger.logWeaponMessage(this, "select target: " + targetShip.getShipType());
+        BattleLogger.logMessage("Calculated aiming speed = " + getAimingSpeed(targetShip) + "; initial aim progress = " + aimProgress);
     }
 
     public boolean isActive(){
@@ -142,8 +149,8 @@ public class WeaponModule {
 
     private void shoot() {
         if (parentShip.getAmmoModule().spend(barrelCaliber * getActiveBarrelCount())) {
-            BattleLogger.logMessage(name + " of " + parentShip.getShipType() + " shoots to " + targetShip.getShipType());
-            BattleLogger.logMessage("Ship " + parentShip.getShipType() + " ammo storage: " + parentShip.getAmmoModule().getAmount());
+            BattleLogger.logWeaponMessage(this, "shoots to " + targetShip.getShipType());
+            BattleLogger.logShipMessage(parentShip, "ammo storage: " + parentShip.getAmmoModule().getAmount());
             targetShip.getShoot(this);
             aimProgress = 0;
             selectTarget();
@@ -167,4 +174,5 @@ public class WeaponModule {
     public String getName() { return name; }
     public int getEndurance() { return endurance; }
     public int getDamage() { return damage; }
+    public Ship getParentShip() { return parentShip; }
 }
