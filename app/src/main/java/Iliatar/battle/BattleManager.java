@@ -60,12 +60,12 @@ public class BattleManager {
 
         List<Ship> result = new ArrayList<>(targetsCount);
 
-        List<Priority<Ship>> ppriorityTargets = targetFleet.getActiveShips().stream().map(ship -> (Priority<Ship>)new PriorityItem<Ship>(ship, 1)).toList();
+        List<Priority<Ship>> priorityTargets = targetFleet.getActiveShips().stream().map(ship -> (Priority<Ship>)new PriorityItem<Ship>(ship, 1)).toList();
 
         while (result.size() < targetsCount) {
-            Ship selectedTarget = RandomSelector.selectRandomByPriority(ppriorityTargets);
+            Ship selectedTarget = RandomSelector.selectRandomByPriority(priorityTargets);
             result.add(selectedTarget);
-            ppriorityTargets = ppriorityTargets.stream().filter(item -> item.getObject() != selectedTarget).toList();
+            priorityTargets = priorityTargets.stream().filter(item -> item.getObject() != selectedTarget).toList();
         }
 
         return result;

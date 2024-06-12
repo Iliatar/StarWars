@@ -56,7 +56,8 @@ public class ShipFactory {
             throw new IllegalArgumentException("ShipFactory library does not contain module with name " + shipTypeName);
         }
         ShipBlueprint blueprint = blueprintLibrary.get(shipTypeName);
-        return new Ship(shipTypeName, blueprint.rank, blueprint.endurance, blueprint.mass, blueprint.maneuverability, blueprint.spaceSpeed, blueprint.armor,
+        String shipName = ShipNameGenerator.getShipName();
+        return new Ship(shipTypeName, blueprint.rank, shipName, blueprint.endurance, blueprint.mass, blueprint.maneuverability, blueprint.spaceSpeed, blueprint.armor,
                 List.copyOf(blueprint.weapons), blueprint.ammoStorageLimit());
     }
 

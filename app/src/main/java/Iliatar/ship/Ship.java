@@ -22,6 +22,7 @@ public class Ship {
     private final double spaceSpeed;
     private final double armor;
     private final String shipType;
+    private final String name;
     private int damage;
     private int maneuverabilityDamage;
     private int spaceEnginesDamage;
@@ -31,9 +32,10 @@ public class Ship {
     private Fleet fleet;
 
 
-    public Ship (String shipType, int rank, int endurance, double mass, double maneuverability, double spaceSpeed, double armor, List<WeaponModule> weapons, int ammoStorageLimit) {
+    public Ship (String shipType, int rank, String name, int endurance, double mass, double maneuverability, double spaceSpeed, double armor, List<WeaponModule> weapons, int ammoStorageLimit) {
         this.shipType = shipType;
         this.rank = rank;
+        this.name = name;
         this.endurance = endurance;
         damage = 0;
         this.mass = mass;
@@ -136,4 +138,5 @@ public class Ship {
     public int getActualEndurance() { return endurance - damage; }
     public String getShipType() { return shipType; }
     public Fleet getFleet() { return fleet; }
+    public String getName() { return name; }
 }

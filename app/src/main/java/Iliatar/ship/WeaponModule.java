@@ -94,7 +94,7 @@ public class WeaponModule {
         }
         targetShip = newTargetShip;
 
-        BattleLogger.logWeaponMessage(this, "select target: " + targetShip.getShipType());
+        BattleLogger.logWeaponMessage(this, "select target: " + targetShip.getShipType() + " " + targetShip.getName());
         BattleLogger.logMessage("Calculated aiming speed = " + getAimingSpeed(targetShip) + "; initial aim progress = " + aimProgress);
     }
 

@@ -18,10 +18,11 @@ public class BattleLogger {
     }
 
     public static void logShipMessage(Ship ship, String message) {
-        logMessage(ship.getShipType() + " of " + ship.getFleet().getName() + " " + message);
+        logMessage(ship.getShipType() + " " + ship.getName() + " of " + ship.getFleet().getName() + " " + message);
     }
 
     public static void logWeaponMessage(WeaponModule weaponModule, String message) {
-        logMessage(weaponModule.getName() + " of " + weaponModule.getParentShip().getShipType() + " of " +  weaponModule.getParentShip().getFleet().getName() + " " + message);
+        logMessage(weaponModule.getName() + " of " + weaponModule.getParentShip().getShipType() + " "
+                + weaponModule.getParentShip().getName() + " of " +  weaponModule.getParentShip().getFleet().getName() + " " + message);
     }
 }
