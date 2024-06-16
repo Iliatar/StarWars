@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BattleManager {
-    private static final double TURN_DELTA_TIME = 1d;
+    private static final int TURN_DELTA_TIME = 1;
     private static final int TURN_NUMBER_LIMIT = 2500;
     Fleet fleet1;
     Fleet fleet2;

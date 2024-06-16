@@ -158,7 +158,7 @@ public class WeaponModule {
     }
 
     private double getAimingSpeed (Ship targetShip) {
-        double aimingSpeed = BASE_AIM_SPEED * Math.sqrt(targetShip.getMass()) / (Math.sqrt(barrelCaliber * barrelCount) * targetShip.getActualManeuverability());
+        double aimingSpeed = BASE_AIM_SPEED * Math.sqrt(targetShip.getMass()) / (Math.sqrt(barrelCaliber * barrelCount) * targetShip.getManeuverability());
         double overlapping = battleManager.getBattleOverlap().getOverlap(parentShip, targetShip);
         aimingSpeed /= 1 + overlapping;
         aimingSpeed /= 1 + damagedAiming * DAMAGE_AIMING_SPEED_REDUCTION;

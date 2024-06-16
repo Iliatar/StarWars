@@ -15,14 +15,18 @@ public abstract class ShipModule {
     protected int damage;
     private int size;
     private int mass;
+    private final double initialArmor;
+    private double currentArmor;
     private List<ShipModule> childModules;
 
-    public ShipModule(int endurance, int size, int mass) {
+    public ShipModule(int endurance, int size, int mass, double armor) {
         this.endurance = endurance;
         this.size = size;
         this.mass = mass;
         this.childModules = new ArrayList<ShipModule>();
         this.damage = 0;
+        initialArmor = armor;
+        currentArmor = armor;
     }
 
     public void calculateTurn(int deltaTime) {
@@ -110,4 +114,6 @@ public abstract class ShipModule {
     }
 
     public Ship getParentShip() { return parentModule.getParentShip(); }
+
+    public double getArmor() { return currentArmor; }
 }

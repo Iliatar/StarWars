@@ -1,5 +1,6 @@
 package Iliatar.ship.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Weapon extends ShipModule {
@@ -7,8 +8,8 @@ public class Weapon extends ShipModule {
     private AimingModule aimingModule;
     private AmmoLoader ammoLoader;
 
-    public Weapon(int endurance, int size, int mass, AimingModule aimingModule, AmmoLoader ammoLoader, List<Barrell> barrellList) {
-        super(endurance, size, mass);
+    public Weapon(int endurance, int size, int mass, double armor, AimingModule aimingModule, AmmoLoader ammoLoader, List<Barrell> barrellList) {
+        super(endurance, size, mass, armor);
         addChild(aimingModule);
         addChild(ammoLoader);
         barrellList.forEach(this::addChild);
@@ -41,5 +42,9 @@ public class Weapon extends ShipModule {
         }
 
         return ShipModuleStatus.Active;
+    }
+
+    public List<Barrell> getBarrellList() {
+        return new ArrayList<>(barrellList);
     }
 }

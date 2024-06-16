@@ -22,8 +22,8 @@ public class AimingModule extends ShipModule {
     private Ship target;
     private BattleManager battleManager;
 
-    public AimingModule(int endurance, int size, int mass, int aimSpeed) {
-        super(endurance, size, mass);
+    public AimingModule(int endurance, int size, int mass, double armor, int aimSpeed) {
+        super(endurance, size, mass, armor);
         type = ShipModuleType.AimingModule;
         this.aimSpeed = aimSpeed;
     }
@@ -31,7 +31,7 @@ public class AimingModule extends ShipModule {
     public void calculateTurn(int deltaTime) {
         if (isAimed() || getStatus() != ShipModuleStatus.Active) return;
 
-        if (target == null || !target.isActive()) {
+        if (target == null || !(target.getStatus() == ShipModuleStatus.Active)) {
             selectTarget();
         }
 
@@ -61,7 +61,7 @@ public class AimingModule extends ShipModule {
 
     private void selectTarget() {
         List<Ship> ships = battleManager.getPotentialTargets(getParentShip(), POTENTIAL_TARGETS_INITIAL_COUNT);
-        if (target != null && target.isActive() && !ships.contains(target)) {
+        if (target != null && target.getStatus() == ShipModuleStatus.Active && !ships.contains(target)) {
             ships.add(target);
         }
         List<Priority<Ship>> potentialTargets = new ArrayList<>(ships.size());
@@ -86,7 +86,7 @@ public class AimingModule extends ShipModule {
     }
 
     public int getAimingSpeed(Ship targetShip) {
-        double maneuverabilityCoeff = Math.min(1, getParentShip().getActualManeuverability() / targetShip.getActualManeuverability());
+        double maneuverabilityCoeff = Math.min(1, getParentShip().getManeuverability() / targetShip.getManeuverability());
         double actualBaseAimSpeed = aimSpeed * (1 - damage / endurance);
         double sizeAndMassCoeff = Math.sqrt(targetShip.getSize() / (getParentModule().getTotalMass() * WEAPON_MASS_COEFFICIENT));
         int aimingSpeed = (int)(actualBaseAimSpeed * maneuverabilityCoeff * sizeAndMassCoeff);

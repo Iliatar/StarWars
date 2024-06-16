@@ -1,59 +1,33 @@
 package Iliatar.ship;
 
-import Iliatar.battle.BattleLogger;
 import Iliatar.battle.BattleManager;
 import Iliatar.battle.Fleet;
-
-import java.util.List;
+import Iliatar.ship.modules.ShipHull;
+import Iliatar.ship.modules.ShipModule;
 
 public class Ship {
     public static final int MAX_SHIP_RANK = 3;
-    private static final double MANEUVERABILITY_DAMAGE_CHANCE = 0.1;
-    private static final double MANEUVERABILITY_DAMAGE_REDUCTION = 0.1;
-    private static final double AMMO_DETONATION_CHANCE = 0.001;
-    private static final double WEAPON_MODULE_DAMAGE_CHANCE = 0.05;
-    private static final double SPACE_ENGINES_DAMAGE_CHANCE = 0.05;
-    private static final double SPACE_ENGINE_DAMAGE_SPEED_REDUCTION = 0.1;
-    private static final double ARMOR_DEGRADATION_PER_DAMAGE_UNIT = 0.001;
     private final int rank;
-    private final int endurance;
-    private final double mass;
-    private final double maneuverability;
-    private final double spaceSpeed;
-    private final double armor;
     private final String shipType;
     private final String name;
-    private int damage;
-    private int maneuverabilityDamage;
-    private int spaceEnginesDamage;
-    private double armorDamage;
-    private final List<WeaponModule> weapons;
     private final StorageModule ammoModule;
     private Fleet fleet;
+    private final ShipHull rootModule;
 
 
-    public Ship (String shipType, int rank, String name, int endurance, double mass, double maneuverability, double spaceSpeed, double armor, List<WeaponModule> weapons, int ammoStorageLimit) {
+    public Ship (String shipType, int rank, String name, ShipHull rootModule, int ammoStorageLimit) {
         this.shipType = shipType;
         this.rank = rank;
         this.name = name;
-        this.endurance = endurance;
-        damage = 0;
-        this.mass = mass;
-        this.maneuverability = maneuverability;
-        maneuverabilityDamage = 0;
-        this.spaceSpeed = spaceSpeed;
-        spaceEnginesDamage = 0;
-        this.armor = armor;
-        armorDamage = 0;
-        this.weapons = List.copyOf(weapons);
-        this.weapons.stream().forEach(weapon -> weapon.setParentShip(this));
+        this.rootModule = rootModule;
+        rootModule.setParentShip(this);
         ammoModule = new StorageModule(ammoStorageLimit);
     }
 
-    public void processBattleTurn(double deltaTime) {
-        weapons.forEach(weaponModule -> weaponModule.processBattleTurn(deltaTime));
+    public void processBattleTurn(int deltaTime) {
+        rootModule.calculateTurn(deltaTime);
     }
-    public void getShoot(WeaponModule weaponModule) {
+    /*public void getShoot(WeaponModule weaponModule) {
         double shootArmorDamage = weaponModule.getActiveBarrelCount() * Math.min(weaponModule.getBarrelCaliber(), getActualArmor()) * ARMOR_DEGRADATION_PER_DAMAGE_UNIT;
         armorDamage += shootArmorDamage;
         BattleLogger.logShipMessage(this, "get armor damage " + shootArmorDamage + "; actual armor is " + getActualArmor());
@@ -70,7 +44,6 @@ public class Ship {
             return;
         }
 
-        //TODO сделать реализоцию более гибкой
         for (int i = 0; i < weaponModule.getActiveBarrelCount(); i++) {
             double diceRoll = Math.random();
             if (diceRoll < MANEUVERABILITY_DAMAGE_CHANCE * barellEnduranceDamage) {
@@ -101,21 +74,19 @@ public class Ship {
                 }
             }
         }
-    }
+    }*/
+
     public void initiateForBattle(BattleManager battleManager) {
-        weapons.forEach(weaponModule -> weaponModule.initiateForBattle(battleManager));
+        rootModule.initiateForBattle(battleManager);
     }
 
     public void finalizeBattle() {
-        weapons.forEach(weaponModule -> weaponModule.finalizeBattle());
+        rootModule.finalizeBattle();
     }
 
-    public boolean isActive() {
-        //System.out.println("Ship.isActive().isDestroyed() = " + isDestroyed() + "; weapons.stream().filter(WeaponModule::isActive).count() > 0 = "  + (weapons.stream().filter(WeaponModule::isActive).count() > 0));
-        //System.out.println("weapons.size() = " + weapons.size());
-        return !isDestroyed() && weapons.stream().filter(WeaponModule::isActive).count() > 0;
+    public ShipModule.ShipModuleStatus getStatus() {
+        return rootModule.getStatus();
     }
-    public boolean isDestroyed() {return damage >= endurance; }
 
     public void setFleet(Fleet fleet) { this.fleet = fleet; }
 
@@ -125,18 +96,12 @@ public class Ship {
     public int getRank() {
         return rank;
     }
-    public double getMass() { return mass; }
-    public double getManeuverability() { return maneuverability; }
-    public double getActualManeuverability() { return maneuverability * Math.max (1 - maneuverabilityDamage * MANEUVERABILITY_DAMAGE_REDUCTION, 0); }
-    public double getArmor() {
-        return armor;
-    }
-    public double getActualArmor() { return armor - armorDamage; }
-    public double getSpaceSpeed() { return spaceSpeed; }
-    public double getActualSpaceSpeed() { return spaceSpeed * Math.max(1 - spaceEnginesDamage * SPACE_ENGINE_DAMAGE_SPEED_REDUCTION, 0); }
-    public int getEndurance() { return endurance; }
-    public int getActualEndurance() { return endurance - damage; }
+
+    public double getMass() { return rootModule.getTotalMass(); }
+    public double getSize() { return rootModule.getTotalSize(); }
+    public double getManeuverability() { return 500 / getMass(); }
     public String getShipType() { return shipType; }
     public Fleet getFleet() { return fleet; }
     public String getName() { return name; }
+    public ShipModule getRootModule() { return rootModule; }
 }
