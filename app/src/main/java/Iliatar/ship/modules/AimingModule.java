@@ -38,8 +38,8 @@ public class AimingModule extends ShipModule {
         aimProgress += getAimingSpeed(target);
     }
 
-    public void getDamage(int damageAmount) {
-        super.getDamage(damageAmount);
+    public void takeDamage(int damageAmount) {
+        super.takeDamage(damageAmount);
         aimProgress -= damageAmount * AIM_PROGRESS_DAMAGE_LOSS;
         if (aimProgress < 0) aimProgress = 0;
     }

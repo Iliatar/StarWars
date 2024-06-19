@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ShipModule {
+    private static final double ARMOR_DAMAGE_COEFF = 0.5;
     public enum ShipModuleType {Weapon, Barrel, AimingModule, AmmoLoader, ShipHull}
     public enum ShipModuleStatus {Active, Damaged, Destroyed}
     protected ShipModuleType type;
@@ -33,9 +34,10 @@ public abstract class ShipModule {
         childModules.forEach(child -> child.calculateTurn(deltaTime));
     }
 
-    public void getDamage(int damageAmount) {
+    public void takeDamage(int damageAmount) {
         damage += damageAmount;
     }
+    public void takeArmorDamage(int damageAmount) { currentArmor -= damageAmount * ARMOR_DAMAGE_COEFF / size; }
 
     public ShipModuleStatus getStatus() {
         if (damage >= endurance) {
@@ -115,5 +117,5 @@ public abstract class ShipModule {
 
     public Ship getParentShip() { return parentModule.getParentShip(); }
 
-    public double getArmor() { return currentArmor; }
+    public double getCurrentArmor() { return currentArmor; }
 }
