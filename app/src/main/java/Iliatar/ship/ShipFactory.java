@@ -1,5 +1,7 @@
 package Iliatar.ship;
 
+import Iliatar.ship.modules.WeaponModuleFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -12,8 +12,8 @@ public class Barrell extends ShipModule {
     private final int caliber;
     private final int armorPenetration;
 
-    public Barrell(int endurance, int size, int mass, double armor, int caliber, int armorPenetration) {
-        super(endurance, size, mass, armor);
+    public Barrell(String name, int endurance, int size, int mass, double armor, int caliber, int armorPenetration) {
+        super(name, endurance, size, mass, armor);
         type = ShipModuleType.Barrel;
         this.caliber = caliber;
         this.armorPenetration = armorPenetration;

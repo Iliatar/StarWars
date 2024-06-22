@@ -2,7 +2,6 @@ package Iliatar.ship.modules;
 
 import Iliatar.battle.BattleManager;
 import Iliatar.ship.StorageModule;
-import Iliatar.ship.WeaponModule;
 
 import java.util.List;
 
@@ -12,8 +11,8 @@ public class AmmoLoader extends  ShipModule {
     private int loadProgress;
     private boolean isAmmoGet;
 
-    public AmmoLoader(int endurance, int size, int mass, double armor, int reloadSpeed) {
-        super(endurance, size, mass, armor);
+    public AmmoLoader(String name, int endurance, int size, int mass, double armor, int reloadSpeed) {
+        super(name, endurance, size, mass, armor);
         type = ShipModuleType.AmmoLoader;
         this.loadSpeed = reloadSpeed;
         loadProgress = 0;

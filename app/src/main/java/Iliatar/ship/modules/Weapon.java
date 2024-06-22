@@ -8,11 +8,15 @@ public class Weapon extends ShipModule {
     private AimingModule aimingModule;
     private AmmoLoader ammoLoader;
 
-    public Weapon(int endurance, int size, int mass, double armor, AimingModule aimingModule, AmmoLoader ammoLoader, List<Barrell> barrellList) {
-        super(endurance, size, mass, armor);
+    public Weapon(String name, int endurance, int size, int mass, double armor, AimingModule aimingModule, AmmoLoader ammoLoader, List<Barrell> barrellList) {
+        super(name, endurance, size, mass, armor);
         addChild(aimingModule);
         addChild(ammoLoader);
         barrellList.forEach(this::addChild);
+        this.barrellList = barrellList;
+        this.aimingModule = aimingModule;
+        this.ammoLoader = ammoLoader;
+        type = ShipModuleType.Weapon;
     }
 
     public void calculateTurn(int deltaTime) {

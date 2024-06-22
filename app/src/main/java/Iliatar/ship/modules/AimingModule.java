@@ -22,8 +22,8 @@ public class AimingModule extends ShipModule {
     private Ship target;
     private BattleManager battleManager;
 
-    public AimingModule(int endurance, int size, int mass, double armor, int aimSpeed) {
-        super(endurance, size, mass, armor);
+    public AimingModule(String name, int endurance, int size, int mass, double armor, int aimSpeed) {
+        super(name, endurance, size, mass, armor);
         type = ShipModuleType.AimingModule;
         this.aimSpeed = aimSpeed;
     }
