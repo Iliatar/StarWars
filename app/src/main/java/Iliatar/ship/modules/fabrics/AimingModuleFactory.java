@@ -17,7 +17,7 @@ public class AimingModuleFactory {
         blueprintLibrary.put(AimingModuleType.Large, new AimingModuleBlueprint(10, 4, 3, 1, 8));
     }
 
-    public AimingModule getAimingModule(AimingModuleType aimingModuleType) {
+    public static AimingModule getAimingModule(AimingModuleType aimingModuleType) {
         if (!blueprintLibrary.containsKey(aimingModuleType)) {
             throw new RuntimeException("AimingModuleFactory library does not contain module with name " + aimingModuleType);
         }

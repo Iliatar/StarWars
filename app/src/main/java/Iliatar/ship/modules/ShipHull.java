@@ -5,8 +5,8 @@ import Iliatar.ship.Ship;
 public class ShipHull extends ShipModule {
     private Ship parentShip;
 
-    public ShipHull(int endurance, int size, int mass, double armor) {
-        super(endurance, size, mass, armor);
+    public ShipHull(String name, int endurance, int size, int mass, double armor) {
+        super(name, endurance, size, mass, armor);
         type = ShipModuleType.ShipHull;
     }
 

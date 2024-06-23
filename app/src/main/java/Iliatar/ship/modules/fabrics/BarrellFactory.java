@@ -5,7 +5,7 @@ import Iliatar.ship.modules.Barrell;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BarrellFabric {
+public class BarrellFactory {
     public enum BarrellType {Mini, Light, Medium, Large, Powerful}
     private record BarrellBlueprint(int endurance, int size, int mass, double armor, int caliber, int armorPenetration) {}
     private static Map<BarrellType, BarrellBlueprint> blueprintLibrary;
@@ -19,7 +19,7 @@ public class BarrellFabric {
         blueprintLibrary.put(BarrellType.Powerful, new BarrellBlueprint(30, 18, 20, 0, 12, 5));
     }
 
-    public Barrell getBarrell(BarrellType barrellType) {
+    public static Barrell getBarrell(BarrellType barrellType) {
         if (!blueprintLibrary.containsKey(barrellType)) {
             throw new RuntimeException("BarrellFactory library does not contain module with name " + barrellType);
         }
