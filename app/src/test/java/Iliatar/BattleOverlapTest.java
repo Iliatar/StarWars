@@ -16,14 +16,14 @@ public class BattleOverlapTest {
     @Test
     public void testOverlapLogic() {
         Fleet fleet1 = new Fleet("Fleet 1", new ArrayList<Ship>());
-        fleet1.addShips(ShipFactory.getShips("Scout", 4));
-        fleet1.addShips(ShipFactory.getShips("Destroyer", 2));
-        fleet1.addShips(ShipFactory.getShips("Cruiser", 3));
+        fleet1.addShips(ShipFactory.getShips(ShipFactory.ShipType.Scout, 4));
+        fleet1.addShips(ShipFactory.getShips(ShipFactory.ShipType.Destroyer, 2));
+        fleet1.addShips(ShipFactory.getShips(ShipFactory.ShipType.Cruiser, 3));
 
         Fleet fleet2 = new Fleet("Fleet 2", new ArrayList<Ship>());
-        fleet2.addShips(ShipFactory.getShips("Scout", 6));
-        fleet2.addShips(ShipFactory.getShips("Destroyer", 4));
-        fleet2.addShips(ShipFactory.getShips("Cruiser", 5));
+        fleet2.addShips(ShipFactory.getShips(ShipFactory.ShipType.Scout, 6));
+        fleet2.addShips(ShipFactory.getShips(ShipFactory.ShipType.Destroyer, 4));
+        fleet2.addShips(ShipFactory.getShips(ShipFactory.ShipType.Cruiser, 5));
 
         BattleOverlap overlap = new BattleOverlap(fleet1, fleet2);
         var actual = overlap.getOverlap(fleet1.getShips().get(0), fleet2.getShips().get(0));
@@ -46,10 +46,10 @@ public class BattleOverlapTest {
     @Test
     public void testOverlapThrowns() {
         Fleet fleet1 = new Fleet("Fleet 1", new ArrayList<>());
-        fleet1.addShips(ShipFactory.getShips("Scout", 2));
+        fleet1.addShips(ShipFactory.getShips(ShipFactory.ShipType.Scout, 2));
 
         Fleet fleet2 = new Fleet("Fleet 2", new ArrayList<>());
-        fleet2.addShips(ShipFactory.getShips("Scout", 4));
+        fleet2.addShips(ShipFactory.getShips(ShipFactory.ShipType.Scout, 4));
 
         BattleOverlap overlap = new BattleOverlap(fleet1, fleet2);
 

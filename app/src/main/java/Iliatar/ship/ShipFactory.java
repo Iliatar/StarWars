@@ -1,9 +1,11 @@
-package Iliatar.ship.modules.fabrics;
+package Iliatar.ship;
 
 import Iliatar.ship.Ship;
 import Iliatar.ship.ShipNameGenerator;
 import Iliatar.ship.modules.ShipHull;
 import Iliatar.ship.modules.ShipModule;
+import Iliatar.ship.modules.fabrics.ShipHullFactory;
+import Iliatar.ship.modules.fabrics.WeaponFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,5 +49,13 @@ public class ShipFactory {
         hull.addChild(weaponList);
         String shipName = ShipNameGenerator.getShipName();
         return new Ship(shipType.toString(), bp.rank(), shipName, hull, bp.ammoStorageLimit());
+    }
+
+    public static List<Ship> getShips(ShipType shipType, int count) {
+        List<Ship> ships = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            ships.add(getShip(shipType));
+        }
+        return ships;
     }
 }
