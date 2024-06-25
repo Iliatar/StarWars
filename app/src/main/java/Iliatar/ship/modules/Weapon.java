@@ -2,6 +2,7 @@ package Iliatar.ship.modules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Weapon extends ShipModule {
     private List<Barrell> barrellList;
@@ -26,12 +27,26 @@ public class Weapon extends ShipModule {
         ammoLoader.calculateTurn(deltaTime);
 
         if (aimingModule.isAimed() && ammoLoader.isLoaded()) shoot();
+
+        if (new Random().nextInt(10) == 1) {
+            logFullStatus();
+        }
     }
 
     private void shoot() {
         aimingModule.shoot();
         ammoLoader.shoot();
         barrellList.forEach(barrell -> barrell.shoot(aimingModule.getTarget()));
+    }
+
+    private void logFullStatus() {
+        String logMessage = "full log \n\r current target: " + aimingModule.getTarget().getShipType() + " " + aimingModule.getTarget().getName() + "\n\r"
+                + "aim progress: " + aimingModule.getAimProgress() + " / " + aimingModule.getAimingSpeed() + "\n\r"
+                + "load progress: " + ammoLoader.getLoadProgress() + " / " + ammoLoader.getLoadSpeed();
+        for (ShipModule module : getChildModules()) {
+            logMessage += "\n\r" + module.getType() + " " + module.getName() + " " + module.getTotalMass() + " "  + module.getTotalMass()
+                    + " " + module.getEndurance() + " " + module.getDamage() + " " + module.getCurrentArmor();
+        }
     }
 
     public ShipModuleStatus getStatus() {

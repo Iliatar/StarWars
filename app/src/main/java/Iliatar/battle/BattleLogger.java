@@ -1,7 +1,7 @@
 package Iliatar.battle;
 
 import Iliatar.ship.Ship;
-import Iliatar.ship.WeaponModule;
+import Iliatar.ship.modules.ShipModule;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -21,8 +21,8 @@ public class BattleLogger {
         logMessage(ship.getShipType() + " " + ship.getName() + " of " + ship.getFleet().getName() + " " + message);
     }
 
-    public static void logWeaponMessage(WeaponModule weaponModule, String message) {
-        logMessage(weaponModule.getName() + " of " + weaponModule.getParentShip().getShipType() + " "
-                + weaponModule.getParentShip().getName() + " of " +  weaponModule.getParentShip().getFleet().getName() + " " + message);
+    public static void logModuleMessage(ShipModule module, String message) {
+        logMessage(module.getName() + " of " + module.getParentShip().getShipType() + " "
+                + module.getParentShip().getName() + " of " +  module.getParentShip().getFleet().getName() + " " + message);
     }
 }

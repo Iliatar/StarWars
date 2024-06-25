@@ -1,5 +1,6 @@
 package Iliatar.ship.modules;
 
+import Iliatar.battle.BattleLogger;
 import Iliatar.battle.BattleManager;
 import Iliatar.ship.Ship;
 import Iliatar.utils.randomSelector.Priority;
@@ -83,6 +84,8 @@ public class AimingModule extends ShipModule {
 
         Ship newTargetShip = RandomSelector.selectRandomByPriority(potentialTargets);
         aimProgress = newTargetShip == target ? RESIDUAL_AIM_PROGRESS : 0;
+        BattleLogger.logModuleMessage(this, "select target " + newTargetShip.getShipType() + " " + newTargetShip.getName() +
+                "\n\rAim progress = " + aimProgress + "; Aim speed = " + getAimingSpeed(newTargetShip));
     }
 
     public int getAimingSpeed(Ship targetShip) {
@@ -98,4 +101,6 @@ public class AimingModule extends ShipModule {
     }
 
     public Ship getTarget() { return target; }
+    public int getAimProgress() { return aimProgress; }
+    public int getAimingSpeed() { return getAimingSpeed(target); }
 }

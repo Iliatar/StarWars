@@ -1,5 +1,6 @@
 package Iliatar.ship.modules;
 
+import Iliatar.battle.BattleLogger;
 import Iliatar.battle.BattleManager;
 import Iliatar.ship.Ship;
 
@@ -38,8 +39,12 @@ public abstract class ShipModule {
 
     public void takeDamage(int damageAmount) {
         damage += damageAmount;
+        BattleLogger.logModuleMessage(this, "take damage " + damageAmount + "; Total damage is " + damage + " of " + endurance);
     }
-    public void takeArmorDamage(int damageAmount) { currentArmor -= damageAmount * ARMOR_DAMAGE_COEFF / size; }
+    public void takeArmorDamage(int damageAmount) {
+        currentArmor -= damageAmount * ARMOR_DAMAGE_COEFF / size;
+        BattleLogger.logModuleMessage(this, "take armor damage " + damageAmount + "; Current armor is " + currentArmor + " of " + initialArmor);
+    }
 
     public ShipModuleStatus getStatus() {
         if (damage >= endurance) {

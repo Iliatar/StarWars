@@ -1,5 +1,6 @@
 package Iliatar.ship.modules;
 
+import Iliatar.battle.BattleLogger;
 import Iliatar.ship.Ship;
 import Iliatar.utils.randomSelector.Priority;
 import Iliatar.utils.randomSelector.PriorityItem;
@@ -20,6 +21,7 @@ public class Barrell extends ShipModule {
     }
 
     public void shoot(Ship targetShip) {
+        BattleLogger.logModuleMessage(this, "shoots to " + targetShip.getShipType() + " " + targetShip.getName());
         int undeployedDamage = caliber;
         int undeployedArmorPenetrarion = armorPenetration;
 
@@ -51,6 +53,7 @@ public class Barrell extends ShipModule {
             nextModule = RandomSelector.selectRandomByPriority(modulesPriorityItems);
         } while (nextModule != currentModule);
 
+        BattleLogger.logModuleMessage(this, "brings to " + currentModule.getName() + " " + undeployedDamage + " damage points");
         currentModule.takeDamage(undeployedDamage);
     }
 

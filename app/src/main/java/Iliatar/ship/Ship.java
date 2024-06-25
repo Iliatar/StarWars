@@ -27,54 +27,6 @@ public class Ship {
     public void processBattleTurn(int deltaTime) {
         rootModule.calculateTurn(deltaTime);
     }
-    /*public void getShoot(WeaponModule weaponModule) {
-        double shootArmorDamage = weaponModule.getActiveBarrelCount() * Math.min(weaponModule.getBarrelCaliber(), getActualArmor()) * ARMOR_DEGRADATION_PER_DAMAGE_UNIT;
-        armorDamage += shootArmorDamage;
-        BattleLogger.logShipMessage(this, "get armor damage " + shootArmorDamage + "; actual armor is " + getActualArmor());
-
-        int barellEnduranceDamage = (int)Math.ceil(weaponModule.getBarrelCaliber() - getActualArmor());
-        if (barellEnduranceDamage <= 0) {
-            return;
-        }
-
-        int enduranceDamage = barellEnduranceDamage * weaponModule.getActiveBarrelCount();
-        damage += enduranceDamage;
-        BattleLogger.logShipMessage(this, "get endurance damage " + enduranceDamage + "; endurance damage is " + damage + " of " + endurance);
-        if (damage >= endurance) {
-            return;
-        }
-
-        for (int i = 0; i < weaponModule.getActiveBarrelCount(); i++) {
-            double diceRoll = Math.random();
-            if (diceRoll < MANEUVERABILITY_DAMAGE_CHANCE * barellEnduranceDamage) {
-                maneuverabilityDamage++;
-                BattleLogger.logShipMessage(this, "get maneuverability damage. Maneuverability damage is " + maneuverabilityDamage);
-                return;
-            }
-
-            diceRoll = Math.random();
-            if (diceRoll < AMMO_DETONATION_CHANCE * barellEnduranceDamage) {
-                damage = endurance;
-                BattleLogger.logShipMessage(this, "destroyed by ammo detonation");
-                return;
-            }
-
-            diceRoll = Math.random();
-            if (diceRoll < SPACE_ENGINES_DAMAGE_CHANCE * barellEnduranceDamage) {
-                spaceEnginesDamage++;
-                BattleLogger.logShipMessage(this, "get space engines damage. Space engines damage is " + spaceEnginesDamage);
-                return;
-            }
-
-            for (WeaponModule weapon : weapons) {
-                diceRoll = Math.random();
-                if (diceRoll < WEAPON_MODULE_DAMAGE_CHANCE * barellEnduranceDamage) {
-                    weapon.getDamage(barellEnduranceDamage);
-                    return;
-                }
-            }
-        }
-    }*/
 
     public void initiateForBattle(BattleManager battleManager) {
         rootModule.initiateForBattle(battleManager);

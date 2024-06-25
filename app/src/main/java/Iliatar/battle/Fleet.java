@@ -1,6 +1,7 @@
 package Iliatar.battle;
 
 import Iliatar.ship.Ship;
+import Iliatar.ship.modules.ShipModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Fleet {
         return ships;
     }
     public List<Ship> getActiveShips() {
-        return ships.stream().filter(Ship::isActive).toList();
+        return ships.stream().filter(ship -> ship.getStatus() == ShipModule.ShipModuleStatus.Active).toList();
     }
     public String getName() {return name;}
 
@@ -45,6 +46,6 @@ public class Fleet {
 
     public void finalizeBattle() {
         ships.forEach(ship -> ship.finalizeBattle());
-        ships.stream().filter(ship -> ship.isDestroyed()).toList().forEach(this::removeShip); //удаляем уничтоженные корабли
+        ships.stream().filter(ship -> ship.getStatus() == ShipModule.ShipModuleStatus.Destroyed).toList().forEach(this::removeShip); //удаляем уничтоженные корабли
     }
 }
