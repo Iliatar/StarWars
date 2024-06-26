@@ -68,13 +68,13 @@ public abstract class ShipModule {
 
     public void initiateForBattle(BattleManager battleManager) {
         for (ShipModule child : childModules) {
-            initiateForBattle(battleManager);
+            child.initiateForBattle(battleManager);
         }
     }
 
     public void finalizeBattle() {
         for (ShipModule child : childModules) {
-            finalizeBattle();
+            child.finalizeBattle();
         }
     }
 

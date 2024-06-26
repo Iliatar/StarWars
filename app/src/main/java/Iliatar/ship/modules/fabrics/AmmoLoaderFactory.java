@@ -20,7 +20,7 @@ public class AmmoLoaderFactory {
 
     public static AmmoLoader getAmmoLoader(AmmoLoaderType ammoLoaderType) {
         if (!blueprintLibrary.containsKey(ammoLoaderType)) {
-            throw new RuntimeException("AmmmoLoaderFactory library does not contain module with name " + ammoLoaderType);
+            throw new RuntimeException("AmmoLoaderFactory library does not contain module with name " + ammoLoaderType);
         }
         AmmoLoaderBlueprint bp = blueprintLibrary.get(ammoLoaderType);
         return new AmmoLoader(ammoLoaderType.toString() + " aiming module", bp.endurance(), bp.size(), bp.mass(), bp.armor(), bp.loadSpeed());

@@ -2,10 +2,10 @@ package Iliatar.ship;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ShipNameGenerator {
     static List<String> nameList;
+    static long namelessCounter = 1;
 
     static {
         nameList = new ArrayList<>();
@@ -23,12 +23,31 @@ public class ShipNameGenerator {
         nameList.add("Patriarch");
         nameList.add("Wespa");
         nameList.add("Morningstar");
+        nameList.add("Persey");
+        nameList.add("Kingman");
+        nameList.add("Lightbringer");
+        nameList.add("Galactic Queen");
+        nameList.add("Hammer");
+        nameList.add("Bastion");
+        nameList.add("NightWolf");
+        nameList.add("Piranha");
+        nameList.add("DoubleTrouble");
+        nameList.add("Seeker");
+        nameList.add("Scorpion");
+        nameList.add("PunchCrunch");
+        nameList.add("Torn");
+        nameList.add("Panzer");
+        nameList.add("Voideater");
     }
 
     public static String getShipName() {
-        int index = (int) (Math.random() * nameList.size());
-        String result = nameList.get(index);
-        nameList.remove(index);
-        return result;
+        if (nameList.size() > 0) {
+            int index = (int) (Math.random() * nameList.size());
+            //System.out.println("index = " + index + "; nameList.size() = " + nameList.size());
+            String result = nameList.get(index);
+            nameList.remove(index);
+            return result;
+        }
+        return "Ship" + namelessCounter++;
     }
 }
