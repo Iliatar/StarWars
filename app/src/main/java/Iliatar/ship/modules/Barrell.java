@@ -21,7 +21,8 @@ public class Barrell extends ShipModule {
     }
 
     public void shoot(Ship targetShip) {
-        BattleLogger.logModuleMessage(this, "shoots to " + targetShip.getShipType() + " " + targetShip.getName());
+        BattleLogger.logModuleMessage(this, "(caliber " + caliber + ", armor penetration " + armorPenetration
+                + ") shoots to " + targetShip.getShipType() + " " + targetShip.getName());
         int undeployedDamage = caliber;
         int undeployedArmorPenetrarion = armorPenetration;
 
@@ -31,7 +32,7 @@ public class Barrell extends ShipModule {
 
         do {
             currentModule = nextModule;
-            int currentModuleArmor = (int) currentModule.getCurrentArmor();
+            int currentModuleArmor = (int) Math.ceil(currentModule.getCurrentArmor());
             int armorDamage = Math.min(currentModuleArmor, undeployedArmorPenetrarion);
             undeployedArmorPenetrarion -= armorDamage;
             if (currentModuleArmor > armorDamage) {

@@ -1,5 +1,7 @@
 package Iliatar.ship.modules;
 
+import Iliatar.battle.BattleLogger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,25 +30,28 @@ public class Weapon extends ShipModule {
 
         if (aimingModule.isAimed() && ammoLoader.isLoaded()) shoot();
 
-        if (new Random().nextInt(10) == 1) {
+        if (new Random().nextInt(50) == 1) {
             logFullStatus();
         }
     }
 
     private void shoot() {
+        barrellList.forEach(barrell -> barrell.shoot(aimingModule.getTarget()));
         aimingModule.shoot();
         ammoLoader.shoot();
-        barrellList.forEach(barrell -> barrell.shoot(aimingModule.getTarget()));
     }
 
     private void logFullStatus() {
-        String logMessage = "full log \n\r current target: " + aimingModule.getTarget().getShipType() + " " + aimingModule.getTarget().getName() + "\n\r"
-                + "aim progress: " + aimingModule.getAimProgress() + " / " + aimingModule.getAimingSpeed() + "\n\r"
-                + "load progress: " + ammoLoader.getLoadProgress() + " / " + ammoLoader.getLoadSpeed();
+        String logMessage = "full log \ncurrent target: " + aimingModule.getTarget().getShipType() + " " + aimingModule.getTarget().getName() + "\n"
+                + "aim progress: " + aimingModule.getAimProgress() + " ( +" + aimingModule.getAimingSpeed() + ")"
+                + " / " + aimingModule.AIM_COMPLETE_PROGRESS + "\n"
+                + "load progress: " + ammoLoader.getLoadProgress() + " ( +" + ammoLoader.getLoadSpeed() + ")"
+                + " / " + ammoLoader.LOAD_COMPLETE_PROGRESS;
         for (ShipModule module : getChildModules()) {
-            logMessage += "\n\r" + module.getType() + " " + module.getName() + " " + module.getTotalMass() + " "  + module.getTotalMass()
-                    + " " + module.getEndurance() + " " + module.getDamage() + " " + module.getCurrentArmor();
+            logMessage += "\n" + module.getName() + " Mass: " + module.getTotalMass() + " Size: "  + module.getTotalSize()
+                    + " Endurance: " + module.getEndurance() + " Damage: " + module.getDamage() + " Current armor: " + module.getCurrentArmor();
         }
+        BattleLogger.logModuleMessage(this, logMessage);
     }
 
     public ShipModuleStatus getStatus() {

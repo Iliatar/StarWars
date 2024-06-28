@@ -22,7 +22,7 @@ public class BattleLogger {
     }
 
     public static void logModuleMessage(ShipModule module, String message) {
-        logMessage(module.getName() + " of " + module.getParentShip().getShipType() + " "
+        logMessage(module.getName() + " of " + module.getParentShip().getShipType() + " of "
                 + module.getParentShip().getName() + " of " +  module.getParentShip().getFleet().getName() + " " + message);
     }
 }

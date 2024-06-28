@@ -8,7 +8,8 @@
                 <OnStartupTriggeringPolicy />
             </Policies>
             <PatternLayout>
-                <Pattern>%d %p %m %ex%n</Pattern>
+                <!--<Pattern>%d %p %m %ex%n</Pattern>-->
+                <Pattern>%m %ex%n</Pattern>
             </PatternLayout>
             <DefaultRolloverStrategy>
                 <Delete basePath="BattleReports" maxDepth="2">

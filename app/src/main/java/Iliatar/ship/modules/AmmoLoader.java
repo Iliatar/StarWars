@@ -1,12 +1,13 @@
 package Iliatar.ship.modules;
 
+import Iliatar.battle.BattleLogger;
 import Iliatar.battle.BattleManager;
 import Iliatar.ship.StorageModule;
 
 import java.util.List;
 
 public class AmmoLoader extends  ShipModule {
-    private final static int LOAD_COMPLETE_PROGRESS = 100;
+    public final static int LOAD_COMPLETE_PROGRESS = 100;
     private final int loadSpeed;
     private int loadProgress;
     private boolean isAmmoGet;
@@ -31,6 +32,7 @@ public class AmmoLoader extends  ShipModule {
         StorageModule ammoModule = getParentShip().getAmmoModule();
         if (ammoModule.spend(getAmmoAmount())) {
             isAmmoGet = true;
+            BattleLogger.logModuleMessage(this, "get " + getAmmoAmount() + " ammo; left " + ammoModule.getAmount() + " in storage");
         }
     }
 

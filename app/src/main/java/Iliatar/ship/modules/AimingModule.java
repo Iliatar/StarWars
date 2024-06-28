@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AimingModule extends ShipModule {
-    private final static int AIM_COMPLETE_PROGRESS = 100;
+    public final static int AIM_COMPLETE_PROGRESS = 100;
     private final static int RESIDUAL_AIM_PROGRESS = 50;
     private final static int AIM_PROGRESS_DAMAGE_LOSS = 30;
     private final static int POTENTIAL_TARGETS_INITIAL_COUNT = 10;
@@ -84,8 +84,9 @@ public class AimingModule extends ShipModule {
 
         Ship newTargetShip = RandomSelector.selectRandomByPriority(potentialTargets);
         aimProgress = newTargetShip == target ? RESIDUAL_AIM_PROGRESS : 0;
+        target = newTargetShip;
         BattleLogger.logModuleMessage(this, "select target " + newTargetShip.getShipType() + " " + newTargetShip.getName() +
-                "\n\rAim progress = " + aimProgress + "; Aim speed = " + getAimingSpeed(newTargetShip));
+                "\nAim progress = " + aimProgress + "; Aim speed = " + getAimingSpeed(newTargetShip));
     }
 
     public int getAimingSpeed(Ship targetShip) {
