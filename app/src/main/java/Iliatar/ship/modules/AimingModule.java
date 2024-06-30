@@ -36,6 +36,8 @@ public class AimingModule extends ShipModule {
             selectTarget();
         }
 
+        if (target == null) return;
+
         aimProgress += getAimingSpeed(target);
     }
 
@@ -68,14 +70,19 @@ public class AimingModule extends ShipModule {
         List<Priority<Ship>> potentialTargets = new ArrayList<>(ships.size());
 
         for(Ship ship : ships) {
-            double aimEfficiency = getAimingSpeed(ship);
-            double initialAimProgress = ship == target ? RESIDUAL_AIM_PROGRESS : 0;
-            double priority = (AIM_COMPLETE_PROGRESS - initialAimProgress) / aimEfficiency;
-            PriorityItem<Ship> potentialTarget = new PriorityItem(ship, priority);
-            potentialTargets.add(potentialTarget);
+            double aimSpeed = getAimingSpeed(ship);
+            if (aimSpeed >= 1) {
+                double initialAimProgress = ship == target ? RESIDUAL_AIM_PROGRESS : 0;
+                double priority = (AIM_COMPLETE_PROGRESS - initialAimProgress) / aimSpeed;
+                PriorityItem<Ship> potentialTarget = new PriorityItem(ship, priority);
+                potentialTargets.add(potentialTarget);
+            }
         }
 
-        if (potentialTargets.isEmpty()) return;
+        if (potentialTargets.isEmpty()) {
+            BattleLogger.logModuleMessage(this, "potentialTargets is empty");
+            return;
+        }
 
         potentialTargets =  potentialTargets.stream()
                 .sorted(Comparator.comparingDouble(Priority::getPriority))
@@ -89,11 +96,29 @@ public class AimingModule extends ShipModule {
                 "\nAim progress = " + aimProgress + "; Aim speed = " + getAimingSpeed(newTargetShip));
     }
 
-    public int getAimingSpeed(Ship targetShip) {
+    public double getAimingSpeed(Ship targetShip) {
+        if (targetShip == null) return 0;
+
         double maneuverabilityCoeff = Math.min(1, getParentShip().getManeuverability() / targetShip.getManeuverability());
         double actualBaseAimSpeed = aimSpeed * (1 - damage / endurance);
         double sizeAndMassCoeff = Math.sqrt(targetShip.getSize() / (getParentModule().getTotalMass() * WEAPON_MASS_COEFFICIENT));
-        int aimingSpeed = (int)(actualBaseAimSpeed * maneuverabilityCoeff * sizeAndMassCoeff);
+        double aimingSpeed = actualBaseAimSpeed * maneuverabilityCoeff * sizeAndMassCoeff;
+
+        String logString = "Aiming speed parameters:"
+                + "\n target: " + targetShip.getShipType() + " " + targetShip.getName()
+                + "\nship maneuverability: " + getParentShip().getManeuverability()
+                + "\ntarget maneuverability: " + targetShip.getManeuverability()
+                + "\nmaneuverabilityCoeff = " + maneuverabilityCoeff
+                + "\nbaseAimSpeed: " + aimSpeed
+                + "\nmodule damage: " + damage + "; endurance: " + endurance
+                + "\nactualBaseAimSpeed = " + actualBaseAimSpeed
+                + "\ntarget size: " + targetShip.getSize()
+                + "\nweapon total mass: " + getParentModule().getTotalMass()
+                + "\nsizeAndMassCoeff = " + sizeAndMassCoeff
+                + "\naimingSpeed = " + aimingSpeed;
+
+        BattleLogger.logModuleMessage(this, logString, 0.01);
+
         return aimingSpeed;
     }
 
@@ -103,5 +128,5 @@ public class AimingModule extends ShipModule {
 
     public Ship getTarget() { return target; }
     public int getAimProgress() { return aimProgress; }
-    public int getAimingSpeed() { return getAimingSpeed(target); }
+    public double getAimingSpeed() { return getAimingSpeed(target); }
 }
