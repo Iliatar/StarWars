@@ -30,33 +30,30 @@ public class Weapon extends ShipModule {
 
         if (aimingModule.isAimed() && ammoLoader.isLoaded()) shoot();
 
-        logFullStatus();
+        BattleLogger.logModuleMessage(this, () -> {
+            String logMessage = "full log \ncurrent target: ";
+            if (aimingModule.getTarget() == null) {
+                logMessage += "not selected";
+            } else {
+                logMessage += aimingModule.getTarget().getShipType() + " " + aimingModule.getTarget().getName();
+            }
+            logMessage += "\naim progress: " + aimingModule.getAimProgress() + " ( +" + aimingModule.getAimingSpeed() + ")"
+                    + " / " + aimingModule.AIM_COMPLETE_PROGRESS + "\n"
+                    + "load progress: " + ammoLoader.getLoadProgress() + " ( +" + ammoLoader.getLoadSpeed() + ")"
+                    + " / " + ammoLoader.LOAD_COMPLETE_PROGRESS;
+
+            for (ShipModule module : getChildModules()) {
+                logMessage += "\n" + module.getName() + " Mass: " + module.getTotalMass() + " Size: "  + module.getTotalSize()
+                        + " Endurance: " + module.getEndurance() + " Damage: " + module.getDamage() + " Current armor: " + module.getCurrentArmor();
+            }
+            return logMessage;
+        }, 0.01);
     }
 
     private void shoot() {
         barrellList.forEach(barrell -> barrell.shoot(aimingModule.getTarget()));
         aimingModule.shoot();
         ammoLoader.shoot();
-    }
-
-    private void logFullStatus() {
-        String logMessage = "full log \ncurrent target: ";
-        if (aimingModule.getTarget() == null) {
-            logMessage += "not selected";
-        } else {
-            logMessage += aimingModule.getTarget().getShipType() + " " + aimingModule.getTarget().getName() + "\n";
-        }
-        logMessage += "\naim progress: " + aimingModule.getAimProgress() + " ( +" + aimingModule.getAimingSpeed() + ")"
-                + " / " + aimingModule.AIM_COMPLETE_PROGRESS + "\n"
-                + "load progress: " + ammoLoader.getLoadProgress() + " ( +" + ammoLoader.getLoadSpeed() + ")"
-                + " / " + ammoLoader.LOAD_COMPLETE_PROGRESS;
-
-        for (ShipModule module : getChildModules()) {
-            logMessage += "\n" + module.getName() + " Mass: " + module.getTotalMass() + " Size: "  + module.getTotalSize()
-                    + " Endurance: " + module.getEndurance() + " Damage: " + module.getDamage() + " Current armor: " + module.getCurrentArmor();
-        }
-
-        BattleLogger.logModuleMessage(this, logMessage, 0.01);
     }
 
     public ShipModuleStatus getStatus() {

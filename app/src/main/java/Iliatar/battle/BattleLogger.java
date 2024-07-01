@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 //TODO убрать статику
 public class BattleLogger {
@@ -29,9 +30,9 @@ public class BattleLogger {
                 + module.getParentShip().getName() + " of " +  module.getParentShip().getFleet().getName() + " " + message);
     }
 
-    public static void logModuleMessage(ShipModule module, String message, double probality) {
+    public static void logModuleMessage(ShipModule module, Supplier<String> messageSupplier, double probality) {
         if (random.nextDouble() < probality) {
-            logModuleMessage(module, message);
+            logModuleMessage(module, messageSupplier.get());
         }
     }
 }

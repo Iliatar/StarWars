@@ -22,17 +22,17 @@ public class ShipFactory {
         blueprintLibrary.put(ShipType.Scout, new ShipBlueprint(1, ShipHullFactory.ShipHullType.Tiny,
                 List.of(WeaponFactory.WeaponType.Stinger), 30));
         blueprintLibrary.put(ShipType.Harpoon, new ShipBlueprint(1, ShipHullFactory.ShipHullType.Small,
-                List.of(WeaponFactory.WeaponType.MediumCannon), 50));
+                List.of(WeaponFactory.WeaponType.MediumCannon), 80));
         blueprintLibrary.put(ShipType.Fighter, new ShipBlueprint(1, ShipHullFactory.ShipHullType.Small,
-                List.of(WeaponFactory.WeaponType.Stinger, WeaponFactory.WeaponType.Turret), 100));
+                List.of(WeaponFactory.WeaponType.Stinger, WeaponFactory.WeaponType.Turret), 200));
         blueprintLibrary.put(ShipType.Destroyer, new ShipBlueprint(2, ShipHullFactory.ShipHullType.Medium,
                 List.of(WeaponFactory.WeaponType.Turret, WeaponFactory.WeaponType.Turret,
-                        WeaponFactory.WeaponType.MediumBattery, WeaponFactory.WeaponType.HeavyCannon), 250));
+                        WeaponFactory.WeaponType.MediumBattery, WeaponFactory.WeaponType.HeavyCannon), 500));
         blueprintLibrary.put(ShipType.Cruiser, new ShipBlueprint(3, ShipHullFactory.ShipHullType.Large,
                 List.of(WeaponFactory.WeaponType.Turret, WeaponFactory.WeaponType.Turret,
                         WeaponFactory.WeaponType.Turret, WeaponFactory.WeaponType.Turret,
                         WeaponFactory.WeaponType.MediumBattery, WeaponFactory.WeaponType.MediumBattery,
-                        WeaponFactory.WeaponType.HeavyCannon, WeaponFactory.WeaponType.PowerfulCannon), 400));
+                        WeaponFactory.WeaponType.HeavyCannon, WeaponFactory.WeaponType.PowerfulCannon), 750));
 
     }
 

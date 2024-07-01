@@ -70,7 +70,7 @@ public class AimingModule extends ShipModule {
         List<Priority<Ship>> potentialTargets = new ArrayList<>(ships.size());
 
         for(Ship ship : ships) {
-            double aimSpeed = getAimingSpeed(ship);
+            int aimSpeed = getAimingSpeed(ship);
             if (aimSpeed >= 1) {
                 double initialAimProgress = ship == target ? RESIDUAL_AIM_PROGRESS : 0;
                 double priority = (AIM_COMPLETE_PROGRESS - initialAimProgress) / aimSpeed;
@@ -96,28 +96,41 @@ public class AimingModule extends ShipModule {
                 "\nAim progress = " + aimProgress + "; Aim speed = " + getAimingSpeed(newTargetShip));
     }
 
-    public double getAimingSpeed(Ship targetShip) {
+    public int getAimingSpeed(Ship targetShip) {
         if (targetShip == null) return 0;
 
-        double maneuverabilityCoeff = Math.min(1, getParentShip().getManeuverability() / targetShip.getManeuverability());
-        double actualBaseAimSpeed = aimSpeed * (1 - damage / endurance);
-        double sizeAndMassCoeff = Math.sqrt(targetShip.getSize() / (getParentModule().getTotalMass() * WEAPON_MASS_COEFFICIENT));
-        double aimingSpeed = actualBaseAimSpeed * maneuverabilityCoeff * sizeAndMassCoeff;
+        int sizeEffect = (int) Math.log10(targetShip.getSize());
+        int massEffect = - (int) (Math.log(getParentModule().getTotalMass()) / 2);
+        double maneuverabiltyDiff = Math.max(targetShip.getManeuverability() - getParentShip().getManeuverability(), 1);
+        int maneuverabiltyEffect = - (int) Math.log(maneuverabiltyDiff);
+        int damageEffect = 0;
+        if (damage / endurance > 0.75) {
+            damageEffect = -2;
+        } else if (damage / endurance > 0.5) {
+            damageEffect = -1;
+        }
 
-        String logString = "Aiming speed parameters:"
-                + "\n target: " + targetShip.getShipType() + " " + targetShip.getName()
-                + "\nship maneuverability: " + getParentShip().getManeuverability()
-                + "\ntarget maneuverability: " + targetShip.getManeuverability()
-                + "\nmaneuverabilityCoeff = " + maneuverabilityCoeff
-                + "\nbaseAimSpeed: " + aimSpeed
-                + "\nmodule damage: " + damage + "; endurance: " + endurance
-                + "\nactualBaseAimSpeed = " + actualBaseAimSpeed
-                + "\ntarget size: " + targetShip.getSize()
-                + "\nweapon total mass: " + getParentModule().getTotalMass()
-                + "\nsizeAndMassCoeff = " + sizeAndMassCoeff
-                + "\naimingSpeed = " + aimingSpeed;
+        int aimingSpeed = aimSpeed + sizeEffect + massEffect + maneuverabiltyEffect + damageEffect;
+        if (aimingSpeed < 0) aimingSpeed = 0;
 
-        BattleLogger.logModuleMessage(this, logString, 0.01);
+        int aimingSpeedLambda = aimingSpeed;
+        int damageEffectLambda = damageEffect;
+
+        BattleLogger.logModuleMessage(this, () -> {
+            return "Aiming speed parameters:"
+                    + "\nbase AimSpeed: " + aimSpeed
+                    + "\ntarget: " + targetShip.getShipType() + " " + targetShip.getName()
+                    + "\ntarget size: " + targetShip.getSize()
+                    + "\nsizeEffect = " + sizeEffect
+                    + "\nweapon total mass: " + getParentModule().getTotalMass()
+                    + "\nmassEffect = " + massEffect
+                    + "\nship maneuverability: " + getParentShip().getManeuverability()
+                    + "\ntarget maneuverability: " + targetShip.getManeuverability()
+                    + "\nmaneuverabiltyEffect = " + maneuverabiltyEffect
+                    + "\nmodule damage: " + damage + "; endurance: " + endurance
+                    + "\ndamageEffect = " + damageEffectLambda
+                    + "\naimingSpeed = " + aimingSpeedLambda;
+        }, 0.01);
 
         return aimingSpeed;
     }
@@ -128,5 +141,5 @@ public class AimingModule extends ShipModule {
 
     public Ship getTarget() { return target; }
     public int getAimProgress() { return aimProgress; }
-    public double getAimingSpeed() { return getAimingSpeed(target); }
+    public int getAimingSpeed() { return getAimingSpeed(target); }
 }
