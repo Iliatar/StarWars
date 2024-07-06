@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Light",
+    "endurance": "3",
+    "size": "1",
+    "mass": "1",
+    "armor": "0",
+    "aimSpeed": "3"
+  },
+  {
+    "name": "Medium",
+    "endurance": "5",
+    "size": "2",
+    "mass": "2",
+    "armor": "1",
+    "aimSpeed": "5"
+  },
+  {
+    "name": "Large",
+    "endurance": "10",
+    "size": "4",
+    "mass": "3",
+    "armor": "1",
+    "aimSpeed": "8"
+  }
+]

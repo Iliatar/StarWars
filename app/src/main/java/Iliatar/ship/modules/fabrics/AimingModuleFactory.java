@@ -2,26 +2,34 @@ package Iliatar.ship.modules.fabrics;
 
 import Iliatar.ship.modules.AimingModule;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class AimingModuleFactory {
-    public enum AimingModuleType {Light, Medium, Large}
-    private record AimingModuleBlueprint(int endurance, int size, int mass, double armor, int aimSpeed) {}
-    private static Map<AimingModuleType, AimingModuleBlueprint> blueprintLibrary;
+    private record AimingModuleBlueprint(String name, int endurance, int size, int mass, double armor, int aimSpeed) {}
+    private static List<AimingModuleBlueprint> blueprintLibrary;
 
     static {
-        blueprintLibrary = new HashMap<>();
-        blueprintLibrary.put(AimingModuleType.Light, new AimingModuleBlueprint(3, 1, 1, 0, 3));
-        blueprintLibrary.put(AimingModuleType.Medium, new AimingModuleBlueprint(5, 2, 2, 1, 5));
-        blueprintLibrary.put(AimingModuleType.Large, new AimingModuleBlueprint(10, 4, 3, 1, 8));
+        File file = new File("src/main/resources/aimingmodules.json");
+        try {
+            blueprintLibrary = new ObjectMapper().readValue(file, new TypeReference<List<AimingModuleBlueprint>>() {});
+
+        } catch (IOException e) {
+            System.out.println("Error while parsing json from " + file.getPath() + ": " + e.toString());
+        }
     }
 
-    public static AimingModule getAimingModule(AimingModuleType aimingModuleType) {
-        if (!blueprintLibrary.containsKey(aimingModuleType)) {
-            throw new RuntimeException("AimingModuleFactory library does not contain module with name " + aimingModuleType);
-        }
-        AimingModuleBlueprint bp = blueprintLibrary.get(aimingModuleType);
-        return new AimingModule(aimingModuleType.toString() + " aiming module", bp.endurance(), bp.size(), bp.mass(), bp.armor(), bp.aimSpeed());
+    public static AimingModule getAimingModule(String name) {
+        AimingModuleBlueprint bp = blueprintLibrary.stream()
+                .filter(bluePrint -> bluePrint.name().equals(name))
+                .findFirst()
+                .orElseThrow(()->new RuntimeException("AimingModuleFactory library does not contain module with name " + name));
+        return new AimingModule(bp.name(), bp.endurance(), bp.size(), bp.mass(), bp.armor(), bp.aimSpeed());
     }
 }
