@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Tiny",
+    "endurance": "30",
+    "size": "20",
+    "mass": "20",
+    "armor": "0"
+  },
+  {
+    "name": "Small",
+    "endurance": "40",
+    "size": "35",
+    "mass": "35",
+    "armor": "1"
+  },
+  {
+    "name": "Medium",
+    "endurance": "60",
+    "size": "48",
+    "mass": "48",
+    "armor": "3"
+  },
+  {
+    "name": "Large",
+    "endurance": "90",
+    "size": "70",
+    "mass": "75",
+    "armor": "5"
+  },
+  {
+    "name": "Huge",
+    "endurance": "150",
+    "size": "120",
+    "mass": "140",
+    "armor": "5"
+  }
+]

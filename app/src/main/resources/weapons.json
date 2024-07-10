@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Stinger",
+    "endurance": "8",
+    "size": "3",
+    "mass": "2",
+    "armor": "0",
+    "aimingModuleName": "Light",
+    "ammoLoaderName": "Light",
+    "barrellName": "Mini",
+    "barrellCount": "1"
+    },
+  {
+    "name": "LightCannon",
+    "endurance": "15",
+    "size": "5",
+    "mass": "3",
+    "armor": "0",
+    "aimingModuleName": "Light",
+    "ammoLoaderName": "Light",
+    "barrellName": "Light",
+    "barrellCount": "1"
+  },
+  {
+    "name": "Turret",
+    "endurance": "25",
+    "size": "10",
+    "mass": "8",
+    "armor": "1",
+    "aimingModuleName": "Light",
+    "ammoLoaderName": "Light",
+    "barrellName": "Light",
+    "barrellCount": "3"
+  },
+  {
+    "name": "MediumCannon",
+    "endurance": "20",
+    "size": "7",
+    "mass": "5",
+    "armor": "0",
+    "aimingModuleName": "Medium",
+    "ammoLoaderName": "Medium",
+    "barrellName": "Medium",
+    "barrellCount": "1"
+  },
+  {
+    "name": "HeavyCannon",
+    "endurance": "25",
+    "size": "12",
+    "mass": "9",
+    "armor": "0",
+    "aimingModuleName": "Large",
+    "ammoLoaderName": "Large",
+    "barrellName": "Large",
+    "barrellCount": "1"
+  },
+  {
+    "name": "MediumBattery",
+    "endurance": "45",
+    "size": "20",
+    "mass": "13",
+    "armor": "2",
+    "aimingModuleName": "Large",
+    "ammoLoaderName": "Large",
+    "barrellName": "Medium",
+    "barrellCount": "3"
+  },
+  {
+    "name": "PowerfulCannon",
+    "endurance": "50",
+    "size": "20",
+    "mass": "20",
+    "armor": "0",
+    "aimingModuleName": "Large",
+    "ammoLoaderName": "Large",
+    "barrellName": "Powerful",
+    "barrellCount": "1"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Mini",
+    "endurance": "3",
+    "size": "2",
+    "mass": "1",
+    "armor": "0",
+    "caliber": "1",
+    "armorPenetration": "0"
+  },
+  {
+    "name": "Light",
+    "endurance": "5",
+    "size": "3",
+    "mass": "2",
+    "armor": "0",
+    "caliber": "3",
+    "armorPenetration": "0"
+  },
+  {
+    "name": "Medium",
+    "endurance": "10",
+    "size": "5",
+    "mass": "4",
+    "armor": "0",
+    "caliber": "5",
+    "armorPenetration": "1"
+  },
+  {
+    "name": "Large",
+    "endurance": "20",
+    "size": "12",
+    "mass": "10",
+    "armor": "0",
+    "caliber": "8",
+    "armorPenetration": "3"
+  },
+  {
+    "name": "Powerful",
+    "endurance": "30",
+    "size": "18",
+    "mass": "20",
+    "armor": "0",
+    "caliber": "12",
+    "armorPenetration": "5"
+  }
+]
