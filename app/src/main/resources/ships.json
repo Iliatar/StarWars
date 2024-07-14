@@ -1,0 +1,37 @@
+[
+  {
+    "shipType": "Scout",
+    "rank": 1,
+    "hullType": "Tiny",
+    "weaponNameList": ["Stinger"],
+    "ammoStorageLimit": 30
+  },
+  {
+    "shipType": "Harpoon",
+    "rank": 1,
+    "hullType": "Small",
+    "weaponNameList": ["MediumCannon"],
+    "ammoStorageLimit": 80
+  },
+  {
+    "shipType": "Fighter",
+    "rank": 1,
+    "hullType": "Tiny",
+    "weaponNameList": ["Stinger", "Turret"],
+    "ammoStorageLimit": 200
+  },
+  {
+    "shipType": "Destroyer",
+    "rank": 2,
+    "hullType": "Medium",
+    "weaponNameList": ["Turret", "Turret", "MediumBattery", "HeavyCannon"],
+    "ammoStorageLimit": 500
+  },
+  {
+    "shipType": "Cruiser",
+    "rank": 3,
+    "hullType": "Large",
+    "weaponNameList": ["Turret", "Turret", "Turret", "Turret", "MediumBattery", "MediumBattery", "HeavyCannon", "PowerfulCannon"],
+    "ammoStorageLimit": 750
+  }
+]

@@ -5,38 +5,42 @@ import Iliatar.ship.ShipNameGenerator;
 import Iliatar.ship.modules.ShipHull;
 import Iliatar.ship.modules.ShipModule;
 import Iliatar.ship.modules.fabrics.ShipModuleUniversalFactory;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ShipFactory {
-    public enum ShipType {Scout, Harpoon, Fighter, Destroyer, Cruiser}
-    private record ShipBlueprint(int rank, String hullType, List<String> weaponNameList, int ammoStorageLimit) {}
-    private static Map<ShipType, ShipBlueprint> blueprintLibrary;
+    private record ShipBlueprint(String shipType, int rank, String hullType, List<String> weaponNameList, int ammoStorageLimit) {}
+    private static List<ShipBlueprint> blueprintLibrary;
 
     static {
-        blueprintLibrary = new HashMap<>();
-        blueprintLibrary.put(ShipType.Scout, new ShipBlueprint(1, "Tiny",
-                List.of("Stinger"), 30));
-        blueprintLibrary.put(ShipType.Harpoon, new ShipBlueprint(1, "Small",
-                List.of("MediumCannon"), 80));
-        blueprintLibrary.put(ShipType.Fighter, new ShipBlueprint(1, "Small",
-                List.of("Stinger", "Turret"), 200));
-        blueprintLibrary.put(ShipType.Destroyer, new ShipBlueprint(2, "Medium",
-                List.of("Turret", "Turret", "MediumBattery", "HeavyCannon"), 500));
-        blueprintLibrary.put(ShipType.Cruiser, new ShipBlueprint(3, "Large",
-                List.of("Turret", "Turret", "Turret", "Turret",
-                        "MediumBattery", "MediumBattery", "HeavyCannon", "PowerfulCannon"), 750));
-
+        File file = new File("src/main/resources/ships.json");
+        try{
+            blueprintLibrary = new ObjectMapper().readValue(file, new TypeReference<>() {});
+        } catch (IOException e) {
+            System.out.println("Error while parsing json from " + file.getPath() + ": " + e.toString());
+        }
     }
 
-    public static Ship getShip(ShipType shipType) {
-        if (!blueprintLibrary.containsKey(shipType)) {
+    public static Ship getShip(String shipType) {
+        ShipBlueprint bp = null;
+
+        for (ShipBlueprint libraryBP : blueprintLibrary) {
+            if (libraryBP.shipType().equals(shipType)) {
+                bp = libraryBP;
+                break;
+            }
+        }
+
+        if (bp == null) {
             throw new RuntimeException("ShipFactory library does not contain module with name " + shipType);
         }
-        ShipBlueprint bp = blueprintLibrary.get(shipType);
 
         ShipHull hull = ShipModuleUniversalFactory.getModule(ShipModule.ShipModuleType.ShipHull, bp.hullType());
 
@@ -50,7 +54,7 @@ public class ShipFactory {
         return new Ship(shipType.toString(), bp.rank(), shipName, hull, bp.ammoStorageLimit());
     }
 
-    public static List<Ship> getShips(ShipType shipType, int count) {
+    public static List<Ship> getShips(String shipType, int count) {
         List<Ship> ships = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
             ships.add(getShip(shipType));

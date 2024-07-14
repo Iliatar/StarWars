@@ -39,6 +39,7 @@ public class ShipNameGenerator {
         nameList.add("Panzer");
         nameList.add("Voideater");
         nameList.add("DoubleDecker");
+        nameList.add("Belgarion");
     }
 
     public static String getShipName() {
